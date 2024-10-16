@@ -38,5 +38,11 @@ sudo rm -r new_root/usr/share/sounds/*
 
 sudo chroot new_root apt install chromium bash-completion qemu-system-x86 git 
 
+sudo rm new_root/dev
+sudo rm new_root/var/cache/apt
+sudo mv new_root/fs_dev new_root/dev
+sudo mv new_root/var/cache/fs_apt new_root/var/cache/apt
+
+sudo mksquashfs new_root filesystem.squashfs -comp zstd -b 1024K
 
 
