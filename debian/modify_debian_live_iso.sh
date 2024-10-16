@@ -26,6 +26,6 @@ sudo mount iso_mount/live/filesystem.squashfs root_mount -t squashfs -o loop
 sudo mount -t overlay -o lowerdir=root_mount,upperdir=root_overlay_upper,workdir=root_overlay_work overlay new_root
 sudo mv new_root/dev new_root/fs_dev
 sudo ln -s /dev new_root/
-
+sudo chroot new_root systemctl mask avahi-daemon
 
 
