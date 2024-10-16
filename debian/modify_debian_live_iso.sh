@@ -11,6 +11,9 @@ CURRENT_DATE=$(date +%Y%m%d)
 
 mkdir /tmp/cursed_dvd
 cd /tmp/cursed_dvd
+sudo umount new_root
+sudo umount root_mount
+sudo umount iso_mount
 sudo umount *
 sudo rm -r *
 sudo rm new_root/dev
