@@ -6,7 +6,7 @@ if [ $# -ne 1 ]; then
     exit 1
 fi
 
-ISO_FILE=$1
+ISO_FILE=$(realpath -s $1)
 CURRENT_DATE=$(date +%Y%m%d)
 
 mkdir /tmp/cursed_dvd
