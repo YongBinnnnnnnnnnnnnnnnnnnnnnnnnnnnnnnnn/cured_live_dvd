@@ -13,9 +13,16 @@ mkdir /tmp/cursed_dvd
 cd /tmp/cursed_dvd
 sudo umount *
 sudo rm -r *
+sudo rm new_root/dev
+
 
 mkdir iso_mount root_mount root_overlay_upper root_overlay_work new_root
 
 sudo mount -o loop "$ISO_FILE" iso_mount
 sudo mount iso_mount/live/filesystem.squashfs root_mount -t squashfs -o loop
 sudo mount -t overlay -o lowerdir=root_mount,upperdir=root_overlay_upper,workdir=root_overlay_work overlay new_root
+sudo mv new_root/dev new_root/fs_dev
+sudo ln -s /dev new_root/
+
+
+
