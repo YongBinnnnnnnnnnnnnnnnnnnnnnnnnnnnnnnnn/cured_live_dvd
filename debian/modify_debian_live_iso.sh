@@ -34,6 +34,7 @@ sudo ln -s /var/cache/apt new_root/var/cache/apt
 sudo chroot new_root systemctl mask avahi-daemon fwupd cups-browsed cupsd 
 sudo chroot new_root apt autoremove --purge exim4-base bluez-firmware xiterm+thai gnome-games fcitx*
 sudo rm new_root/usr/share/desktop-base/*/*/contents/images/*.svg
+sudo chroot new_root apt install chromium bash-completion qemu-system-x86 git 
 
 
 
