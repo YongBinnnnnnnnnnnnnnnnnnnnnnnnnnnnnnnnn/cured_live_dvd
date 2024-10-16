@@ -27,7 +27,7 @@ sudo mount -t overlay -o lowerdir=root_mount,upperdir=root_overlay_upper,workdir
 sudo mv new_root/dev new_root/fs_dev
 sudo ln -s /dev new_root/
 sudo chroot new_root systemctl mask avahi-daemon fwupd cups-browsed cupsd 
-sudo chroot new_root apt autoremove --purge exim4-base bluez-firmware xiterm+thai gnome-games
+sudo chroot new_root apt autoremove --purge exim4-base bluez-firmware xiterm+thai gnome-games fcitx*
 
 
 
