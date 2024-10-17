@@ -18,11 +18,8 @@ sudo umount *
 sudo rm new_root/dev
 sudo rm new_root/var/cache/apt
 sudo rm -r *
-cd -
-cp -r new_iso /tmp/cursed_dvd/
-cd /tmp/cursed_dvd
 
-mkdir iso_mount root_mount root_overlay_upper root_overlay_work new_root
+mkdir iso_mount root_mount root_overlay_upper root_overlay_work new_root new_iso
 
 sudo mount -o loop "$ISO_FILE" iso_mount
 sudo mount iso_mount/live/filesystem.squashfs root_mount -t squashfs -o loop
@@ -45,6 +42,7 @@ sudo rm new_root/var/cache/apt
 sudo mv new_root/fs_dev new_root/dev
 sudo mv new_root/var/cache/fs_apt new_root/var/cache/apt
 
-sudo mksquashfs new_root new_iso/filesystem.squashfs -comp zstd -b 1024K
-
-
+mkdir -p new_iso/live/
+sudo mksquashfs new_root new_iso/live/filesystem.squashfs -comp zstd -b 1024K
+mkdir -p new_iso/boot/grub/
+sed -e "s|800x600|1920x1080|g" -f iso_mount/boot/grub/config.cfg > new_iso/boot/grub/config.cfg
