@@ -59,3 +59,5 @@ sed -e "s|findiso=.*|efi=noruntime module_blacklist=parport,msr,i2c_smbios,i2c_p
 
 xorriso -boot_image any keep -indev "$ISO_FILE" -outdev cursed.iso  -map new_iso / 
 
+cd -
+mv /tmp/cursed_dvd/cursed.iso cursed-`sha256sum | cut -d " " -f 1`-$(date "+%Y%m%d%H%M%S").iso
