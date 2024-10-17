@@ -36,6 +36,7 @@ sudo chroot new_root apt install chromium bash-completion qemu-system-x86 git xo
 sudo chroot new_root systemctl mask avahi-daemon fwupd cups-browsed cupsd 
 sudo chroot new_root apt autoremove --purge exim4-base bluez-firmware xiterm+thai gnome-games fcitx* fonts-thai-tlwg
 sudo cp $CURSED/hood/scripts/hosts new_root/etc/
+sudo cp $CURSED/hood/scripts/NetworkManager.conf new_root/etc/NetworkManager/NetworkManager.conf
 sudo cp $CURSED/hood/scripts/ca-certificates.conf new_root/etc/
 sudo mkdir -p new_root/etc/pki/
 sudo cp -r $CURSED/hood/scripts/nssdb new_root/etc/pki/
