@@ -29,7 +29,7 @@ sudo mount -t overlay -o lowerdir=root_mount,upperdir=root_overlay_upper,workdir
 sudo mv new_root/dev new_root/fs_dev
 sudo ln -s /dev new_root/
 sudo mv new_root/var/cache/apt new_root/var/cache/fs_apt
-sudo ln -s /var/cache/apt new_root/var/cache/apt
+sudo cp -r /var/cache/apt new_root/var/cache/
 
 sudo chroot new_root apt install chromium bash-completion qemu-system-x86 git xorriso wodim
 
@@ -47,7 +47,7 @@ sudo rm new_root/usr/share/desktop-base/*/*/contents/images/*.svg
 sudo rm -r new_root/usr/share/sounds/*
 
 sudo rm new_root/dev
-sudo rm new_root/var/cache/apt
+sudo rm -r new_root/var/cache/apt
 sudo mv new_root/fs_dev new_root/dev
 sudo mv new_root/var/cache/fs_apt new_root/var/cache/apt
 
