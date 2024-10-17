@@ -48,11 +48,12 @@ sudo rm -r new_root/usr/share/sounds/*
 sudo umount new_root/dev
 sudo umount new_root/var/cache/apt
 
+mkdir -p new_iso/boot/grub/
+sed -e "s|800x600|1920x1080|g" iso_mount/boot/grub/config.cfg > new_iso/boot/grub/config.cfg
+sed -e "s|findiso=.*|nodhcp efi=noruntime module_blacklist=i2c_piix4,i2c_smbios,msr,parport,qrtr|g" iso_mount/boot/grub/grub.cfg > new_iso/boot/grub/grub.cfg
+
 mkdir -p new_iso/live/
 sudo mksquashfs new_root new_iso/live/filesystem.squashfs -comp zstd -b 1024K
-mkdir -p new_iso/boot/grub/
-sed -e "s|800x600|1920x1080|g" -f iso_mount/boot/grub/config.cfg > new_iso/boot/grub/config.cfg
-sed -e "s|findiso=.*|nodhcp efi=noruntime module_blacklist=i2c_piix4,i2c_smbios,msr,parport,qrtr|g" -f iso_mount/boot/grub/grub.cfg > new_iso/boot/grub/grub.cfg
 
 xorriso -boot_image any keep -indev "$ISO_FILE" -outdev cursed.iso  -map new_iso / 
 
