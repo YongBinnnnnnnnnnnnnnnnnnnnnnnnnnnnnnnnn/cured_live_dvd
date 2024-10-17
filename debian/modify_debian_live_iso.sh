@@ -31,7 +31,11 @@ sudo mount -o bind /var/cache/apt new_root/var/cache/apt
 
 sudo chroot new_root apt install -y chromium bash-completion qemu-system-x86 git xorriso wodim
 
-sudo chroot new_root systemctl mask avahi-daemon fwupd cups-browsed cupsd 
+if sha256sum $CURSED/debian/cnijfilter2-6.71-1-deb.1a0080b3ee4b2d20a764f5ba5ff4bfd49be6f487b7ebbd9e5996290c29b7d9c2.tar.gz | grep 1a0080b3ee4b2d20a764f5ba5ff4bfd49be6f487b7ebbd9e5996290c29b7d9c2; then
+   tar -xvf $CURSED/debian/cnijfilter2-6.71-1-deb.1a0080b3ee4b2d20a764f5ba5ff4bfd49be6f487b7ebbd9e5996290c29b7d9c2.tar.gz cnijfilter2-6.71-1-deb/packages/cnijfilter2_6.71-1_amd64.deb
+fi
+
+sudo chroot new_root systemctl mask avahi-daemon fwupd cups-browsed 
 sudo chroot new_root apt autoremove --purge -y exim4-base bluez-firmware xiterm+thai gnome-games fcitx* fonts-thai-tlwg
 sudo cp $CURSED/hood/scripts/hosts new_root/etc/
 sudo cp $CURSED/hood/scripts/NetworkManager.conf new_root/etc/NetworkManager/NetworkManager.conf
@@ -40,7 +44,7 @@ sudo cp $CURSED/hood/scripts/sysctl.conf new_root/etc/
 sudo mkdir -p new_root/etc/pki/
 sudo cp -r $CURSED/hood/scripts/nssdb new_root/etc/pki/
 
-sudo chmod -x new_root/usr/sbin/dhclient
+#sudo chmod -x new_root/usr/sbin/dhclient
 
 sudo rm new_root/usr/share/desktop-base/*/*/contents/images/*.svg
 sudo rm -r new_root/usr/share/sounds/*
