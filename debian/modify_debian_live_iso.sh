@@ -35,6 +35,9 @@ sudo chroot new_root apt install chromium bash-completion qemu-system-x86 git xo
 
 sudo chroot new_root systemctl mask avahi-daemon fwupd cups-browsed cupsd 
 sudo chroot new_root apt autoremove --purge exim4-base bluez-firmware xiterm+thai gnome-games fcitx* fonts-thai-tlwg
+sudo cp $CURSED/hood/scripts/hosts new_root/etc/
+sudo cp $CURSED/hood/scripts/hosts new_root/etc/
+
 sudo rm new_root/usr/share/desktop-base/*/*/contents/images/*.svg
 sudo rm -r new_root/usr/share/sounds/*
 
