@@ -41,6 +41,8 @@ sudo cp $CURSED/hood/scripts/ca-certificates.conf new_root/etc/
 sudo mkdir -p new_root/etc/pki/
 sudo cp -r $CURSED/hood/scripts/nssdb new_root/etc/pki/
 
+sudo chmod -x new_root/usr/sbin/dhclient
+
 sudo rm new_root/usr/share/desktop-base/*/*/contents/images/*.svg
 sudo rm -r new_root/usr/share/sounds/*
 
