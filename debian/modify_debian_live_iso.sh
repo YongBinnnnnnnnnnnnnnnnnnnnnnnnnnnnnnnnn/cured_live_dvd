@@ -31,10 +31,10 @@ sudo ln -s /dev new_root/
 sudo mv new_root/var/cache/apt new_root/var/cache/fs_apt
 sudo cp -r /var/cache/apt new_root/var/cache/
 
-sudo chroot new_root apt install chromium bash-completion qemu-system-x86 git xorriso wodim
+sudo chroot new_root apt install -y chromium bash-completion qemu-system-x86 git xorriso wodim
 
 sudo chroot new_root systemctl mask avahi-daemon fwupd cups-browsed cupsd 
-sudo chroot new_root apt autoremove --purge exim4-base bluez-firmware xiterm+thai gnome-games fcitx* fonts-thai-tlwg
+sudo chroot new_root apt autoremove --purge -y exim4-base bluez-firmware xiterm+thai gnome-games fcitx* fonts-thai-tlwg
 sudo cp $CURSED/hood/scripts/hosts new_root/etc/
 sudo cp $CURSED/hood/scripts/NetworkManager.conf new_root/etc/NetworkManager/NetworkManager.conf
 sudo cp $CURSED/hood/scripts/ca-certificates.conf new_root/etc/
