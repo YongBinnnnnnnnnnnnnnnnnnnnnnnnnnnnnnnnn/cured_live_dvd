@@ -69,7 +69,7 @@ find new_iso/boot -type f -exec bash -c "iso_path=\$(echo {}|sed -e 's|new_iso|\
 mv md5sum.txt new_iso/
 mv sha256sum.txt new_iso/
 
-#TODO ublock
+#TODO pagecage
 
 xorriso -boot_image any keep -indev "$ISO_FILE" -outdev cursed.iso  -map new_iso / -rm_r /install -rm_r /pool -rm_r /dists -rm_r /pool-udeb
 
