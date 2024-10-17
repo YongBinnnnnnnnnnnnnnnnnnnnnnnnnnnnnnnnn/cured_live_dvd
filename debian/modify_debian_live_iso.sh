@@ -47,3 +47,6 @@ sudo mksquashfs new_root new_iso/live/filesystem.squashfs -comp zstd -b 1024K
 mkdir -p new_iso/boot/grub/
 sed -e "s|800x600|1920x1080|g" -f iso_mount/boot/grub/config.cfg > new_iso/boot/grub/config.cfg
 sed -e "s|findiso=.*|efi=noruntime module_blacklist=parport,msr|g" -f iso_mount/boot/grub/grub.cfg > new_iso/boot/grub/grub.cfg
+
+xorriso -boot_image any keep -indev "$ISO_FILE" -outdev cursed.iso  -map new_iso / 
+
