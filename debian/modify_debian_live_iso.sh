@@ -13,12 +13,11 @@ CURRENT_DATE=$(date +%Y%m%d)
 mkdir /tmp/cursed_dvd
 cd /tmp/cursed_dvd
 sudo umount new_root/dev
+sudo umount new_root/var/cache/apt
 sudo umount new_root
 sudo umount root_mount
 sudo umount iso_mount
 sudo umount *
-sudo rm new_root/dev
-sudo rm new_root/var/cache/apt
 sudo rm -r *
 
 mkdir iso_mount root_mount root_overlay_upper root_overlay_work new_root new_iso
@@ -27,10 +26,8 @@ sudo mount -o loop "$ISO_FILE" iso_mount
 sudo mount iso_mount/live/filesystem.squashfs root_mount -t squashfs -o loop
 sudo mount -t overlay -o lowerdir=root_mount,upperdir=root_overlay_upper,workdir=root_overlay_work overlay new_root
 
-sudo mv new_root/dev new_root/fs_dev
 sudo mount -o bind /dev new_root/dev
-sudo mv new_root/var/cache/apt new_root/var/cache/fs_apt
-sudo cp -r /var/cache/apt new_root/var/cache/
+sudo mount -o bind /var/cache/apt new_root/var/cache/apt
 
 sudo chroot new_root apt install -y chromium bash-completion qemu-system-x86 git xorriso wodim
 
@@ -49,9 +46,7 @@ sudo rm new_root/usr/share/desktop-base/*/*/contents/images/*.svg
 sudo rm -r new_root/usr/share/sounds/*
 
 sudo umount new_root/dev
-sudo rm -r new_root/var/cache/apt
-sudo mv new_root/fs_dev new_root/dev
-sudo mv new_root/var/cache/fs_apt new_root/var/cache/apt
+sudo umount new_root/var/cache/apt
 
 mkdir -p new_iso/live/
 sudo mksquashfs new_root new_iso/live/filesystem.squashfs -comp zstd -b 1024K
