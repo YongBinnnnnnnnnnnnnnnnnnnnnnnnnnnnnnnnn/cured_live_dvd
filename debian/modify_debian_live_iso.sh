@@ -30,12 +30,12 @@ sudo ln -s /dev new_root/
 sudo mv new_root/var/cache/apt new_root/var/cache/fs_apt
 sudo ln -s /var/cache/apt new_root/var/cache/apt
 
+sudo chroot new_root apt install chromium bash-completion qemu-system-x86 git xorriso wodim
+
 sudo chroot new_root systemctl mask avahi-daemon fwupd cups-browsed cupsd 
 sudo chroot new_root apt autoremove --purge exim4-base bluez-firmware xiterm+thai gnome-games fcitx* fonts-thai-tlwg
 sudo rm new_root/usr/share/desktop-base/*/*/contents/images/*.svg
 sudo rm -r new_root/usr/share/sounds/*
-
-sudo chroot new_root apt install chromium bash-completion qemu-system-x86 git xorriso wodim
 
 sudo rm new_root/dev
 sudo rm new_root/var/cache/apt
