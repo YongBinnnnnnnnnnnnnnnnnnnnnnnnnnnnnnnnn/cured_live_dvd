@@ -64,6 +64,7 @@ cat iso_mount/md5sum.txt | grep -v -e " ./install" -e " ./pool" -e " ./dists" > 
 cat iso_mount/sha256sum.txt | grep -v -e " ./install" -e " ./pool" -e " ./dists" > new_iso/sha256sum.txt
 
 #TODO new hashes
+find new_iso/boot -type f -exec bash -c "export hash=\$(sha256sum {}|cut -d ' ' \-f 1);echo \$hash" \;
 
 #TODO ublock
 
