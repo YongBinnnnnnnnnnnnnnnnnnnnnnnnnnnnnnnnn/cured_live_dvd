@@ -6,6 +6,7 @@ if [ $# -ne 1 ]; then
     exit 1
 fi
 
+CURSED=$(realpath -s ..)
 ISO_FILE=$(realpath -s $1)
 CURRENT_DATE=$(date +%Y%m%d)
 
