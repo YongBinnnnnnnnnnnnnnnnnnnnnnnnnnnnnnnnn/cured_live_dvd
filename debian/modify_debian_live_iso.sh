@@ -57,7 +57,8 @@ sudo umount new_root/var/cache/apt
 mkdir -p new_iso/boot/grub/
 sed -e "s|800x600|1920x1080|g" iso_mount/boot/grub/config.cfg > new_iso/boot/grub/config.cfg
 sed -e "s|findiso=.*|verify nodhcp efi=noruntime module_blacklist=i2c_piix4,i2c_smbios,msr,parport,qrtr|g" iso_mount/boot/grub/grub.cfg > new_iso/boot/grub/grub.cfg
-cat iso_mount/md5sum.txt | grep -v -e " ./install" -e " ./pool" -e " ./dists"
+cat iso_mount/md5sum.txt | grep -v -e " ./install" -e " ./pool" -e " ./dists" > new_iso/md5sum.txt
+cat iso_mount/sha256sum.txt | grep -v -e " ./install" -e " ./pool" -e " ./dists" > new_iso/sha256sum.txt
 
 mkdir -p new_iso/live/
 sudo mksquashfs new_root new_iso/live/filesystem.squashfs -comp zstd -b 1024K
