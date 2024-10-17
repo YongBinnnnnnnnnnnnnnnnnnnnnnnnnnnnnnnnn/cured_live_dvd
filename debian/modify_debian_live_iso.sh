@@ -61,7 +61,7 @@ sed -e "s|findiso=.*|nodhcp efi=noruntime module_blacklist=i2c_piix4,i2c_smbios,
 mkdir -p new_iso/live/
 sudo mksquashfs new_root new_iso/live/filesystem.squashfs -comp zstd -b 1024K
 
-xorriso -boot_image any keep -indev "$ISO_FILE" -outdev cursed.iso  -map new_iso / 
+xorriso -boot_image any keep -indev "$ISO_FILE" -outdev cursed.iso  -map new_iso / -rm_r /install
 
 cd -
 mv /tmp/cursed_dvd/cursed.iso cursed-`sha256sum | cut -d " " -f 1`-$(date "+%Y%m%d%H%M%S").iso
