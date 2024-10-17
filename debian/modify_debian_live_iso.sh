@@ -65,6 +65,8 @@ cat iso_mount/sha256sum.txt | grep -v -e " ./install" -e " ./pool" -e " ./dists"
 
 #TODO new hashes
 
+#TODO ublock
+
 xorriso -boot_image any keep -indev "$ISO_FILE" -outdev cursed.iso  -map new_iso / -rm_r /install -rm_r /pool -rm_r /dists -rm_r /pool-udeb
 
 cd -
