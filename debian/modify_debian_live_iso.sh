@@ -15,10 +15,12 @@ sudo umount new_root
 sudo umount root_mount
 sudo umount iso_mount
 sudo umount *
-sudo rm -r *
 sudo rm new_root/dev
 sudo rm new_root/var/cache/apt
-
+sudo rm -r *
+cd -
+cp -r new_iso /tmp/cursed_dvd/
+cd /tmp/cursed_dvd
 
 mkdir iso_mount root_mount root_overlay_upper root_overlay_work new_root
 
@@ -43,6 +45,6 @@ sudo rm new_root/var/cache/apt
 sudo mv new_root/fs_dev new_root/dev
 sudo mv new_root/var/cache/fs_apt new_root/var/cache/apt
 
-sudo mksquashfs new_root filesystem.squashfs -comp zstd -b 1024K
+sudo mksquashfs new_root new_iso/filesystem.squashfs -comp zstd -b 1024K
 
 
