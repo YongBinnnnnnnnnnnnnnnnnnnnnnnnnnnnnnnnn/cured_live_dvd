@@ -1,11 +1,5 @@
 #!/bin/bash
 
-# Check if an ISO file is given
-if [ $# -ne 1 ]; then
-    echo "Usage: $0 iso=<path_to_live_iso>"
-    exit 1
-fi
-
 CURSED=$(realpath -s ..)
 CURRENT_DATE=$(date +%Y%m%d)
 test_boot=0
@@ -18,6 +12,11 @@ for arg in "$@"; do
     iso=*) iso=$(echo $arg|sed "s/[^=]*=//");;
   esac
 done
+# Check if an ISO file is given
+if [ $iso -ne 1 ]; then
+    echo "Usage: $0 iso=<path_to_live_iso>"
+    exit 1
+fi
 
 ISO_FILE=$(realpath -s $iso)
 
