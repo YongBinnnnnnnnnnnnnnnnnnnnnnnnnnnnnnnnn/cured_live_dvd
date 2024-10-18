@@ -64,8 +64,8 @@ sudo mksquashfs new_root new_iso/live/filesystem.squashfs -comp zstd -b 512K -Xc
 cat iso_mount/md5sum.txt | grep -v -e " ./install" -e " ./pool" -e " ./dists" > md5sum.txt
 cat iso_mount/sha256sum.txt | grep -v -e " ./install" -e " ./pool" -e " ./dists" > sha256sum.txt
 #new hashes
-find new_iso/boot -type f -exec bash -c "iso_path=\$(echo {}|sed -e 's|new_iso|\\.|');hash=\$(sha256sum {}|cut -d ' ' -f 1);sed -i sha256sum.txt -e 's|.*\$iso_path\$|\$hash \$iso_path|';" \;
-find new_iso/boot -type f -exec bash -c "iso_path=\$(echo {}|sed -e 's|new_iso|\\.|');hash=\$(md5sum {}|cut -d ' ' -f 1);sed -i md5sum.txt -e 's|.*\$iso_path\$|\$hash \$iso_path|';" \;
+find new_iso/ -type f -exec bash -c "iso_path=\$(echo {}|sed -e 's|new_iso|\\.|');hash=\$(sha256sum {}|cut -d ' ' -f 1);sed -i sha256sum.txt -e 's|.*\$iso_path\$|\$hash \$iso_path|';" \;
+find new_iso/ -type f -exec bash -c "iso_path=\$(echo {}|sed -e 's|new_iso|\\.|');hash=\$(md5sum {}|cut -d ' ' -f 1);sed -i md5sum.txt -e 's|.*\$iso_path\$|\$hash \$iso_path|';" \;
 mv md5sum.txt new_iso/
 mv sha256sum.txt new_iso/
 
