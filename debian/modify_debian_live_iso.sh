@@ -29,7 +29,7 @@ sudo mount -t overlay -o lowerdir=root_mount,upperdir=root_overlay_upper,workdir
 sudo mount -o bind /dev new_root/dev
 sudo mount -o bind /var/cache/apt new_root/var/cache/apt
 
-sudo chroot new_root apt install -y chromium bash-completion qemu-system-x86 git xorriso wodim ibus-pinyin mpv
+sudo chroot new_root apt install -y chromium bash-completion qemu-system-x86 git xorriso wodim ibus-pinyin mpv gimp
 
 if sha256sum $CURSED/debian/cnijfilter2-6.71-1-deb.1a0080b3ee4b2d20a764f5ba5ff4bfd49be6f487b7ebbd9e5996290c29b7d9c2.tar.gz | cut -d " " -f 1| grep 1a0080b3ee4b2d20a764f5ba5ff4bfd49be6f487b7ebbd9e5996290c29b7d9c2; then
   tar -xvf $CURSED/debian/cnijfilter2-6.71-1-deb.1a0080b3ee4b2d20a764f5ba5ff4bfd49be6f487b7ebbd9e5996290c29b7d9c2.tar.gz cnijfilter2-6.71-1-deb/packages/cnijfilter2_6.71-1_amd64.deb --one-top-level=new_root --strip-components 2
@@ -38,7 +38,7 @@ if sha256sum $CURSED/debian/cnijfilter2-6.71-1-deb.1a0080b3ee4b2d20a764f5ba5ff4b
 fi
 
 sudo chroot new_root systemctl mask avahi-daemon fwupd cups-browsed 
-sudo chroot new_root apt autoremove --purge -y debian-reference-common exim4-base bluez-firmware fcitx* fonts-thai-tlwg fortunes-debian-hints gnome-games gnome-online-accounts gnome-initial-setup gnome-music gnome-themes-extra totem xiterm+thai yelp
+sudo chroot new_root apt autoremove --purge -y cups-browsed debian-reference-common exim4-base bluez-firmware fcitx* fonts-thai-tlwg fortunes-debian-hints gnome-games gnome-online-accounts gnome-initial-setup gnome-music gnome-sushi gnome-themes-extra totem xiterm+thai yelp
 sudo chroot new_root bash -c 'apt list --installed|cut -d / -f 1|grep -e "l10n-[a-z]"|xargs apt autoremove --purge -y '
 sudo chroot new_root bash -c 'apt list --installed|cut -d / -f 1|grep -e "spell-[a-z]"|grep -v -e -en|xargs apt autoremove --purge  '
 sudo chroot new_root bash -c 'apt list --installed|cut -d / -f 1|grep manpages-| xargs apt autoremove --purge -y'
@@ -46,7 +46,7 @@ sudo chroot new_root bash -c 'apt list --installed|cut -d / -f 1|grep -e fonts-l
 sudo chroot new_root bash -c 'apt list --installed|cut -d / -f 1|grep -e "mythes-[a-df-z]"|xargs apt autoremove --purge -y'
 sudo chroot new_root bash -c 'apt list --installed|cut -d / -f 1|grep "^task-"|grep -v -e english -e laptop| xargs apt autoremove --purge -y'
 
-sudo chroot new_root bash -c 'apt list --installed|cut -d / -f 1|grep "^task-"|grep -v -e english -e laptop| xargs -L 1 dpkg -L | tr "\n" "#"|sed -e "s|#[^#]*#pack[^#]*||g"|tr "#" "\n" | xargs rm' 2>&1|grep -v "Is a directory"
+#sudo chroot new_root bash -c 'apt list --installed|cut -d / -f 1|grep "^task-"|grep -v -e english -e laptop| xargs -L 1 dpkg -L | tr "\n" "#"|sed -e "s|#[^#]*#pack[^#]*||g"|tr "#" "\n" | xargs rm' 2>&1|grep -v "Is a directory"
 
 sudo cp $CURSED/hood/scripts/hosts new_root/etc/
 sudo cp $CURSED/hood/scripts/NetworkManager.conf new_root/etc/NetworkManager/NetworkManager.conf
