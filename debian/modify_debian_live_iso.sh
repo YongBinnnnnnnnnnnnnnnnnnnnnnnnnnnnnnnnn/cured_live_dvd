@@ -1,5 +1,7 @@
 #!/bin/bash
 
+sudo apt-get install xorriso
+
 CURSED=$(realpath -s ..)
 CURRENT_DATE=$(date +%Y%m%d)
 test_boot=0
