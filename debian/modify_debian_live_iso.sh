@@ -2,13 +2,24 @@
 
 # Check if an ISO file is given
 if [ $# -ne 1 ]; then
-    echo "Usage: $0 <path_to_live_iso>"
+    echo "Usage: $0 iso=<path_to_live_iso>"
     exit 1
 fi
 
 CURSED=$(realpath -s ..)
-ISO_FILE=$(realpath -s $1)
 CURRENT_DATE=$(date +%Y%m%d)
+test_boot=0
+
+prefix=""
+target="/"
+for arg in "$@"; do
+  case $arg in 
+    test_boot=*) test_boot=$(echo $arg|sed "s/[^=]*=//");;
+    iso=*) iso=$(echo $arg|sed "s/[^=]*=//");;
+  esac
+done
+
+ISO_FILE=$(realpath -s $iso)
 
 mkdir /tmp/cursed_dvd
 cd /tmp/cursed_dvd
@@ -29,14 +40,16 @@ sudo mount -t overlay -o lowerdir=root_mount,upperdir=root_overlay_upper,workdir
 sudo mount -o bind /dev new_root/dev
 sudo mount -o bind /var/cache/apt new_root/var/cache/apt
 
-sudo chroot new_root bash -c "DEBIAN_FRONTEND=noninteractive apt-get install -y adb bash-completion bmap-tools chromium espeak-ng fastboot gimp git ibus-pinyin mpv nodejs npm qemu-system-x86 wireshark wodim xorriso obs-studio"
 
-if sha256sum $CURSED/debian/cnijfilter2-6.71-1-deb.1a0080b3ee4b2d20a764f5ba5ff4bfd49be6f487b7ebbd9e5996290c29b7d9c2.tar.gz | cut -d " " -f 1| grep 1a0080b3ee4b2d20a764f5ba5ff4bfd49be6f487b7ebbd9e5996290c29b7d9c2; then
-  tar -xvf $CURSED/debian/cnijfilter2-6.71-1-deb.1a0080b3ee4b2d20a764f5ba5ff4bfd49be6f487b7ebbd9e5996290c29b7d9c2.tar.gz cnijfilter2-6.71-1-deb/packages/cnijfilter2_6.71-1_amd64.deb --one-top-level=new_root --strip-components 2
-  sudo chroot new_root apt install -y /cnijfilter2_6.71-1_amd64.deb
-  rm new_root/cnijfilter2_6.71-1_amd64.deb
+if [ $test_boot -eq 0 ]; then
+  sudo chroot new_root bash -c "DEBIAN_FRONTEND=noninteractive apt-get install -y adb bash-completion bmap-tools chromium espeak-ng fastboot gimp git ibus-pinyin mpv nodejs npm qemu-system-x86 wireshark wodim xorriso obs-studio"
+
+  if sha256sum $CURSED/debian/cnijfilter2-6.71-1-deb.1a0080b3ee4b2d20a764f5ba5ff4bfd49be6f487b7ebbd9e5996290c29b7d9c2.tar.gz | cut -d " " -f 1| grep 1a0080b3ee4b2d20a764f5ba5ff4bfd49be6f487b7ebbd9e5996290c29b7d9c2; then
+    tar -xvf $CURSED/debian/cnijfilter2-6.71-1-deb.1a0080b3ee4b2d20a764f5ba5ff4bfd49be6f487b7ebbd9e5996290c29b7d9c2.tar.gz cnijfilter2-6.71-1-deb/packages/cnijfilter2_6.71-1_amd64.deb --one-top-level=new_root --strip-components 2
+    sudo chroot new_root apt install -y /cnijfilter2_6.71-1_amd64.deb
+    rm new_root/cnijfilter2_6.71-1_amd64.deb
+  fi
 fi
-
 #TODO: find a way to do this without network
 #sudo chroot new_root npm i pagecage
 
