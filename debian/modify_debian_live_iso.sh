@@ -39,14 +39,12 @@ fi
 
 sudo chroot new_root systemctl mask avahi-daemon fwupd cups-browsed 
 sudo chroot new_root apt autoremove --purge -y exim4-base bluez-firmware xiterm+thai gnome-games fcitx* fonts-thai-tlwg gnome-online-accounts gnome-initial-setup
-sudo chroot new_root bash -c 'dpkg -L debian-reference-common debian-reference-es debian-reference-it fortunes-debian-hints gnome-music totem gnome-user-docs totem-plugins yelp |xargs rm' 2>&1|grep -v "Is a directory"
-sudo chroot new_root bash -c 'apt list --installed|grep "^task-"|grep -v -e english -e laptop|cut -d / -f 1| xargs -L 1 dpkg -L | xargs rm' 2>&1|grep -v "Is a directory"
-sudo chroot new_root bash -c 'apt list --installed|grep firefox-esr-l10n|cut -d / -f 1| xargs -L 1 dpkg -L | xargs rm' 2>&1|grep -v "Is a directory"
-sudo chroot new_root bash -c 'apt list --installed|grep spell-[a-z]|grep -v -e -en|cut -d / -f 1| xargs -L 1 dpkg -L | xargs rm' 2>&1|grep -v "Is a directory"
-sudo chroot new_root bash -c 'apt list --installed|grep -e fonts-lohit -e fonts-be -e fonts-t -e fonts-smc|cut -d / -f 1| xargs -L 1 dpkg -L | xargs rm' 2>&1|grep -v "Is a directory"
-sudo chroot new_root bash -c 'apt list --installed|grep manpages-|cut -d / -f 1| xargs -L 1 dpkg -L | xargs rm' 2>&1|grep -v "Is a directory"
-
-
+sudo chroot new_root bash -c 'dpkg -L debian-reference-common debian-reference-es debian-reference-it fortunes-debian-hints gnome-music totem gnome-user-docs totem-plugins yelp | tr "\n" "#"|sed -e "s|#[^#]*#pack[^#]*||g"|tr "#" "\n" |xargs rm' 2>&1|grep -v "Is a directory"
+sudo chroot new_root bash -c 'apt list --installed|grep "^task-"|grep -v -e english -e laptop|cut -d / -f 1| xargs -L 1 dpkg -L | tr "\n" "#"|sed -e "s|#[^#]*#pack[^#]*||g"|tr "#" "\n" | xargs rm' 2>&1|grep -v "Is a directory"
+sudo chroot new_root bash -c 'apt list --installed|grep firefox-esr-l10n|cut -d / -f 1| xargs -L 1 dpkg -L | tr "\n" "#"|sed -e "s|#[^#]*#pack[^#]*||g"|tr "#" "\n" | xargs rm' 2>&1|grep -v "Is a directory"
+sudo chroot new_root bash -c 'apt list --installed|grep spell-[a-z]|grep -v -e -en|cut -d / -f 1| xargs -L 1 dpkg -L | tr "\n" "#"|sed -e "s|#[^#]*#pack[^#]*||g"|tr "#" "\n" | xargs rm' 2>&1|grep -v "Is a directory"
+sudo chroot new_root bash -c 'apt list --installed|grep -e fonts-lohit -e fonts-be -e fonts-t -e fonts-smc|cut -d / -f 1| xargs -L 1 dpkg -L | tr "\n" "#"|sed -e "s|#[^#]*#pack[^#]*||g"|tr "#" "\n" | xargs rm' 2>&1|grep -v "Is a directory"
+sudo chroot new_root bash -c 'apt list --installed|grep manpages-|cut -d / -f 1| xargs -L 1 dpkg -L | tr "\n" "#"|sed -e "s|#[^#]*#pack[^#]*||g"|tr "#" "\n" | xargs rm' 2>&1|grep -v "Is a directory"
 
 sudo cp $CURSED/hood/scripts/hosts new_root/etc/
 sudo cp $CURSED/hood/scripts/NetworkManager.conf new_root/etc/NetworkManager/NetworkManager.conf
