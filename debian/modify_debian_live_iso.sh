@@ -86,4 +86,4 @@ mv sha256sum.txt new_iso/
 xorriso -boot_image any keep -indev "$ISO_FILE" -outdev cursed.iso  -map new_iso / -rm_r /install -rm_r /pool -rm_r /dists -rm_r /pool-udeb
 
 cd -
-mv /tmp/cursed_dvd/cursed.iso cursed-`sha256sum /tmp/cursed_dvd/cursed.iso | cut -d " " -f 1`-$(date "+%Y%m%d%H%M%S").iso
+mv /tmp/cursed_dvd/cursed.iso cursed-$(date "+%Y%m%d%H%M%S")-`sha256sum /tmp/cursed_dvd/cursed.iso | cut -d " " -f 1`.iso
