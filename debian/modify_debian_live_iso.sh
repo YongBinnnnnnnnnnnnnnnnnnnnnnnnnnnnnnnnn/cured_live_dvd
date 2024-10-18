@@ -39,7 +39,7 @@ fi
 
 sudo chroot new_root systemctl mask avahi-daemon fwupd cups-browsed 
 sudo chroot new_root apt autoremove --purge -y exim4-base bluez-firmware xiterm+thai gnome-games fcitx* fonts-thai-tlwg gnome-online-accounts gnome-initial-setup
-sudo chroot new_root dpkg -r gnome-user-docs yelp debian-reference-common debian-reference-es debian-reference-it fortunes-debian-hints
+sudo chroot new_root dpkg -r debian-reference-common debian-reference-es debian-reference-it fortunes-debian-hints gnome-music totem gnome-user-docs totem-plugins yelp
 sudo chroot new_root bash -c 'apt list --installed|grep "^task-"|grep -v -e english -e laptop|cut -d / -f 1| xargs dpkg -r'
 sudo chroot new_root bash -c 'apt list --installed|grep firefox-esr-l10n|cut -d / -f 1|xargs dpkg -r'
 sudo chroot new_root bash -c 'apt list --installed|grep spell-[a-z]|grep -v -e -en|cut -d / -f 1|xargs dpkg -r'
