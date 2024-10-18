@@ -29,7 +29,7 @@ sudo mount -t overlay -o lowerdir=root_mount,upperdir=root_overlay_upper,workdir
 sudo mount -o bind /dev new_root/dev
 sudo mount -o bind /var/cache/apt new_root/var/cache/apt
 
-sudo chroot new_root apt install -y bash-completion chromium espeak-ng gimp git ibus-pinyin mpv qemu-system-x86 wodim xorriso  
+sudo chroot new_root apt install -y bash-completion chromium espeak-ng gimp git ibus-pinyin mpv qemu-system-x86 wireshark wodim xorriso  
 
 if sha256sum $CURSED/debian/cnijfilter2-6.71-1-deb.1a0080b3ee4b2d20a764f5ba5ff4bfd49be6f487b7ebbd9e5996290c29b7d9c2.tar.gz | cut -d " " -f 1| grep 1a0080b3ee4b2d20a764f5ba5ff4bfd49be6f487b7ebbd9e5996290c29b7d9c2; then
   tar -xvf $CURSED/debian/cnijfilter2-6.71-1-deb.1a0080b3ee4b2d20a764f5ba5ff4bfd49be6f487b7ebbd9e5996290c29b7d9c2.tar.gz cnijfilter2-6.71-1-deb/packages/cnijfilter2_6.71-1_amd64.deb --one-top-level=new_root --strip-components 2
