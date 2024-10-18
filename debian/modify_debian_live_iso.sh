@@ -44,7 +44,9 @@ sudo chroot new_root bash -c 'apt list --installed|cut -d / -f 1|grep -e "spell-
 sudo chroot new_root bash -c 'apt list --installed|cut -d / -f 1|grep manpages-| xargs apt autoremove --purge -y'
 sudo chroot new_root bash -c 'apt list --installed|cut -d / -f 1|grep -e fonts-lohit -e fonts-be -e fonts-t -e fonts-smc| xargs apt autoremove --purge -y'
 sudo chroot new_root bash -c 'apt list --installed|cut -d / -f 1|grep -e "mythes-[a-df-z]"|xargs apt autoremove --purge -y'
-sudo chroot new_root bash -c 'apt list --installed|grep "^task-"|grep -v -e english -e laptop|cut -d / -f 1| xargs -L 1 dpkg -L | tr "\n" "#"|sed -e "s|#[^#]*#pack[^#]*||g"|tr "#" "\n" | xargs rm' 2>&1|grep -v "Is a directory"
+sudo chroot new_root bash -c 'apt list --installed|cut -d / -f 1|grep "^task-"|grep -v -e english -e laptop| xargs apt autoremove --purge -y'
+
+sudo chroot new_root bash -c 'apt list --installed|cut -d / -f 1|grep "^task-"|grep -v -e english -e laptop| xargs -L 1 dpkg -L | tr "\n" "#"|sed -e "s|#[^#]*#pack[^#]*||g"|tr "#" "\n" | xargs rm' 2>&1|grep -v "Is a directory"
 
 sudo cp $CURSED/hood/scripts/hosts new_root/etc/
 sudo cp $CURSED/hood/scripts/NetworkManager.conf new_root/etc/NetworkManager/NetworkManager.conf
