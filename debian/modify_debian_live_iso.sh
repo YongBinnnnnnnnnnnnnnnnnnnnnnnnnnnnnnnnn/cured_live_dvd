@@ -37,6 +37,9 @@ if sha256sum $CURSED/debian/cnijfilter2-6.71-1-deb.1a0080b3ee4b2d20a764f5ba5ff4b
   rm new_root/cnijfilter2_6.71-1_amd64.deb
 fi
 
+#TODO: find a way to do this without network
+#sudo chroot new_root npm i pagecage
+
 sudo chroot new_root systemctl mask avahi-daemon fwupd cups-browsed 
 sudo chroot new_root apt autoremove --purge -y cups-browsed debian-reference-common exim4-base bluez-firmware fcitx* fonts-thai-tlwg fortunes-debian-hints gnome-games gnome-online-accounts gnome-initial-setup gnome-music gnome-sushi gnome-themes-extra totem xiterm+thai yelp
 sudo chroot new_root bash -c 'apt list --installed|cut -d / -f 1|grep -e "l10n-[a-z]"|xargs apt autoremove --purge -y '
@@ -80,8 +83,6 @@ find new_iso/ -type f -exec bash -c "iso_path=\$(echo {}|sed -e 's|new_iso|\\.|'
 find new_iso/ -type f -exec bash -c "iso_path=\$(echo {}|sed -e 's|new_iso|\\.|');hash=\$(md5sum {}|cut -d ' ' -f 1);sed -i md5sum.txt -e 's|.*\$iso_path\$|\$hash \$iso_path|';" \;
 mv md5sum.txt new_iso/
 mv sha256sum.txt new_iso/
-
-#TODO pagecage
 
 xorriso -boot_image any keep -indev "$ISO_FILE" -outdev cursed.iso  -map new_iso / -rm_r /install -rm_r /pool -rm_r /dists -rm_r /pool-udeb
 
