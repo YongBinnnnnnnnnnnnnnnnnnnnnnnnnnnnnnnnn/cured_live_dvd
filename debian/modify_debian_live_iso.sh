@@ -43,7 +43,7 @@ sudo chroot new_root bash -c 'dpkg -L debian-reference-common debian-reference-e
 sudo chroot new_root bash -c 'apt list --installed|grep "^task-"|grep -v -e english -e laptop|cut -d / -f 1| xargs -L 1 dpkg -L | xargs rm' 2>&1|grep -v "Is a directory"
 sudo chroot new_root bash -c 'apt list --installed|grep firefox-esr-l10n|cut -d / -f 1| xargs -L 1 dpkg -L | xargs rm' 2>&1|grep -v "Is a directory"
 sudo chroot new_root bash -c 'apt list --installed|grep spell-[a-z]|grep -v -e -en|cut -d / -f 1| xargs -L 1 dpkg -L | xargs rm' 2>&1|grep -v "Is a directory"
-sudo chroot new_root bash -c 'apt list --installed|grep -e fonts-lohit -e fonts-be -e fonts-t fonts-smc|cut -d / -f 1| xargs -L 1 dpkg -L | xargs rm' 2>&1|grep -v "Is a directory"
+sudo chroot new_root bash -c 'apt list --installed|grep -e fonts-lohit -e fonts-be -e fonts-t -e fonts-smc|cut -d / -f 1| xargs -L 1 dpkg -L | xargs rm' 2>&1|grep -v "Is a directory"
 sudo chroot new_root bash -c 'apt list --installed|grep manpages-|cut -d / -f 1| xargs -L 1 dpkg -L | xargs rm' 2>&1|grep -v "Is a directory"
 
 
