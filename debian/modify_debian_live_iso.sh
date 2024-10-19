@@ -1,4 +1,4 @@
-#!/bin/bash
+﻿#!/bin/bash
 
 sudo apt-get install xorriso
 
@@ -55,7 +55,8 @@ fi
 #sudo chroot new_root npm i pagecage
 
 sudo chroot new_root systemctl mask avahi-daemon fwupd cups-browsed 
-sudo chroot new_root apt autoremove --purge -y cups-browsed debian-reference-common exim4-base sudo chroot new_root apt remove bluez bluez-firmware bluez-obexd fcitx* fonts-thai-tlwg fortunes-debian-hints gnome-games gnome-online-accounts gnome-initial-setup gnome-music gnome-sushi gnome-themes-extra totem xiterm+thai yelp
+sudo sed -i new_root/var/lib/dpkg/info/bluez.prerm -e "s|invoke-rc.d|echo invoke-rc.d|"
+sudo chroot new_root apt autoremove --purge -y bluez bluez-firmware bluez-obexd cups-browsed debian-reference-common exim4-base fcitx* fonts-thai-tlwg fortunes-debian-hints gnome-games gnome-online-accounts gnome-initial-setup gnome-music gnome-software gnome-sushi gnome-themes-extra pinentry-gnome3 totem xiterm+thai yelp
 sudo chroot new_root bash -c 'apt list --installed|cut -d / -f 1|grep -e "l10n-[a-z]"|xargs apt autoremove --purge -y '
 sudo chroot new_root bash -c 'apt list --installed|cut -d / -f 1|grep -e "spell-[a-z]"|grep -v -e -en|xargs apt autoremove --purge -y '
 sudo chroot new_root bash -c 'apt list --installed|cut -d / -f 1|grep manpages-| xargs apt autoremove --purge -y'
@@ -84,7 +85,7 @@ sudo umount new_root/var/cache/apt
 
 mkdir -p new_iso/boot/grub/
 sed -e "s|800x600|1920x1080|g" iso_mount/boot/grub/config.cfg > new_iso/boot/grub/config.cfg
-sed -e "s|findiso=.*|nodhcp efi=noruntime module_blacklist=i2c_piix4,i2c_smbios,msr,parport,qrtr,intel_rapl_common|g" iso_mount/boot/grub/grub.cfg > new_iso/boot/grub/grub.cfg
+sed -e "s|findiso=.*|nodhcp efi=noruntime module_blacklist=i2c_piix4,i2c_smbios,msr,parport,qrtr,intel_rapl_common|g,serio_raw" iso_mount/boot/grub/grub.cfg > new_iso/boot/grub/grub.cfg
 #verify-checksums 
 
 mkdir -p new_iso/live/
