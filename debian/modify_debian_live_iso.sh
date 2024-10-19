@@ -102,4 +102,7 @@ mv sha256sum.txt new_iso/
 xorriso -boot_image any keep -indev "$ISO_FILE" -outdev cursed.iso  -map new_iso / -rm_r /install -rm_r /pool -rm_r /dists -rm_r /pool-udeb
 
 cd -
-mv /tmp/cursed_dvd/cursed.iso cursed-$(date "+%Y%m%d%H%M%S")-`sha256sum /tmp/cursed_dvd/cursed.iso | cut -d " " -f 1`.iso
+new_iso_name=cursed-$(date "+%Y%m%d%H%M%S")-`sha256sum /tmp/cursed_dvd/cursed.iso | cut -d " " -f 1`.iso
+mv /tmp/cursed_dvd/cursed.iso $new_iso_name
+
+qemu-system-x86_64 -cdrom $new_iso_name -bios /usr/share/qemu/OVMF.fd -m 8192 -smp 8 --enable-kvm
