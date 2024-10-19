@@ -90,7 +90,7 @@ sudo umount new_root/var/cache/apt
 
 mkdir -p new_iso/boot/grub/
 sed -e "s|800x600|1920x1080|g" iso_mount/boot/grub/config.cfg > new_iso/boot/grub/config.cfg
-sed -e "s|findiso=.*|nodhcp efi=noruntime module_blacklist=i2c_piix4,i2c_smbios,msr,parport,qrtr,intel_rapl_common,serio_raw initcall_blacklist=serial_base_port_init|g" iso_mount/boot/grub/grub.cfg > new_iso/boot/grub/grub.cfg
+sed -e "s|findiso=.*|toram=filesystem.squashfs nodhcp efi=noruntime module_blacklist=i2c_piix4,i2c_smbios,msr,parport,qrtr,intel_rapl_common,serio_raw initcall_blacklist=serial_base_port_init|g" iso_mount/boot/grub/grub.cfg > new_iso/boot/grub/grub.cfg
 #verify-checksums 
 
 mkdir -p new_iso/live/
@@ -104,7 +104,8 @@ find new_iso/ -type f -exec bash -c "iso_path=\$(echo {}|sed -e 's|new_iso|\\.|'
 mv md5sum.txt new_iso/
 mv sha256sum.txt new_iso/
 
-xorriso -boot_image any keep -indev "$ISO_FILE" -outdev cursed.iso  -map new_iso / -rm_r /install -rm_r /pool -rm_r /dists -rm_r /pool-udeb
+xorriso -boot_image any keep -indev "$ISO_FILE" -outdev cursed.iso  -map new_iso / -rm_r /install -rm_r /pool -rm_r /dists -rm_r /pool-udeb 
+#-rm_r /boot/grub/x86_64-efi
 
 cd -
 new_iso_name=cursed-$(date "+%Y%m%d%H%M%S")-`sha256sum /tmp/cursed_dvd/cursed.iso | cut -d " " -f 1`.iso
