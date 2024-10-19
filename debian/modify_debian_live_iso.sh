@@ -4,14 +4,16 @@ sudo apt-get install xorriso
 
 CURSED=$(realpath -s ..)
 CURRENT_DATE=$(date +%Y%m%d)
-test_boot=0
+test_boot=1
 skip_fs=0
+skip_install=0
 
 prefix=""
 squashfs_compression="-comp zstd -Xcompression-level 22"
 for arg in "$@"; do
   case $arg in 
     skip_fs=*) skip_fs=$(echo $arg|sed "s/[^=]*=//");;
+    skip_install=*) skip_install=$(echo $arg|sed "s/[^=]*=//");;
     test_boot=*) test_boot=$(echo $arg|sed "s/[^=]*=//");;
     iso=*) iso=$(echo $arg|sed "s/[^=]*=//");;
   esac
@@ -43,7 +45,7 @@ mkdir iso_mount root_mount root_overlay_upper root_overlay_work new_root new_iso
 
 sudo mount -o loop "$ISO_FILE" iso_mount
 
-if [ $skip_fs -eq 0 ]; then
+if [ $skip_fs -ne 0 ]; then
   sudo mount iso_mount/live/filesystem.squashfs root_mount -t squashfs -o loop
   sudo mount -t overlay -o lowerdir=root_mount,upperdir=root_overlay_upper,workdir=root_overlay_work overlay new_root
 
@@ -51,7 +53,7 @@ if [ $skip_fs -eq 0 ]; then
   sudo mount -o bind /var/cache/apt new_root/var/cache/apt
 
 
-  if [ $test_boot -eq 0 ]; then
+  if [ $skip_install -ne 0 ]; then
     sudo chroot new_root bash -c "DEBIAN_FRONTEND=noninteractive apt-get install -y adb bash-completion bmap-tools chromium espeak-ng fastboot gimp git ibus-pinyin mpv nodejs npm qemu-system-x86 wireshark wodim xorriso obs-studio python3-pip python3-socks mokutil openssl"
 
     if sha256sum $CURSED/debian/cnijfilter2-6.71-1-deb.1a0080b3ee4b2d20a764f5ba5ff4bfd49be6f487b7ebbd9e5996290c29b7d9c2.tar.gz | cut -d " " -f 1| grep 1a0080b3ee4b2d20a764f5ba5ff4bfd49be6f487b7ebbd9e5996290c29b7d9c2; then
@@ -119,4 +121,6 @@ cd -
 new_iso_name=cursed-$(date "+%Y%m%d%H%M%S")-`sha256sum /tmp/cursed_dvd/cursed.iso | cut -d " " -f 1`.iso
 mv /tmp/cursed_dvd/cursed.iso $new_iso_name
 
-qemu-system-x86_64 -cdrom $new_iso_name -bios /usr/share/qemu/OVMF.fd -m 8192 -smp 8 --enable-kvm
+if [ $test_boot -eq 0 ]; then
+  qemu-system-x86_64 -cdrom $new_iso_name -bios /usr/share/qemu/OVMF.fd -m 8192 -smp 8 --enable-kvm
+fi
