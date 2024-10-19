@@ -78,6 +78,7 @@ if [ $skip_fs -eq 0 ]; then
   sudo cp $CURSED/hood/scripts/hosts new_root/etc/
   sudo cp $CURSED/hood/scripts/NetworkManager.conf new_root/etc/NetworkManager/NetworkManager.conf
   sudo cp $CURSED/hood/scripts/ca-certificates.conf new_root/etc/
+  sudo chroot update-ca-certificates
   sudo cp $CURSED/hood/scripts/sysctl.conf new_root/etc/
   sudo mkdir -p new_root/etc/pki/
   sudo cp -r $CURSED/hood/scripts/nssdb new_root/etc/pki/
