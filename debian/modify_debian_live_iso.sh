@@ -11,7 +11,7 @@ prefix=""
 squashfs_compression="-comp zstd -Xcompression-level 22"
 for arg in "$@"; do
   case $arg in 
-    skip_squashfs=*) skip_fs=$(echo $arg|sed "s/[^=]*=//");;
+    skip_fs=*) skip_fs=$(echo $arg|sed "s/[^=]*=//");;
     test_boot=*) test_boot=$(echo $arg|sed "s/[^=]*=//");;
     iso=*) iso=$(echo $arg|sed "s/[^=]*=//");;
   esac
@@ -43,7 +43,7 @@ mkdir iso_mount root_mount root_overlay_upper root_overlay_work new_root new_iso
 
 sudo mount -o loop "$ISO_FILE" iso_mount
 
-if [ $skip_squashfs -eq 0 ]; then
+if [ $skip_fs -eq 0 ]; then
   sudo mount iso_mount/live/filesystem.squashfs root_mount -t squashfs -o loop
   sudo mount -t overlay -o lowerdir=root_mount,upperdir=root_overlay_upper,workdir=root_overlay_work overlay new_root
 
@@ -98,7 +98,7 @@ fi
 
 mkdir -p new_iso/boot/grub/
 sed -e "s|800x600|1920x1080|g" iso_mount/boot/grub/config.cfg > new_iso/boot/grub/config.cfg
-sed -e "s|findiso=.*|toram=filesystem.squashfs nodhcp efi=noruntime module_blacklist=i2c_piix4,sp5100_tco,i2c_smbios,msr,parport,qrtr,intel_rapl_common,serio_raw,ccp,mei initcall_blacklist=pnp_add_device,pnp_init_device,pnp_register_driver|g" iso_mount/boot/grub/grub.cfg > new_iso/boot/grub/grub.cfg
+sed -e "s|findiso=.*|toram=filesystem.squashfs nodhcp efi=noruntime pnpbios=off pnpacpi=off module_blacklist=i2c_piix4,sp5100_tco,i2c_smbios,msr,parport,qrtr,intel_rapl_common,serio_raw,mei initcall_blacklist=serial8250_init|g" iso_mount/boot/grub/grub.cfg > new_iso/boot/grub/grub.cfg
 #useless: ,serial_base_port_init
 #verify-checksums 
 
