@@ -7,13 +7,18 @@ CURRENT_DATE=$(date +%Y%m%d)
 test_boot=0
 
 prefix=""
-target="/"
+squashfs_compression="-comp zstd -Xcompression-level 22"
 for arg in "$@"; do
   case $arg in 
     test_boot=*) test_boot=$(echo $arg|sed "s/[^=]*=//");;
     iso=*) iso=$(echo $arg|sed "s/[^=]*=//");;
   esac
 done
+
+if [ $test_boot -eq 0 ]; then
+  squashfs_compression="-comp gzip -Xcompression-level 1"
+fi
+
 # Check if an ISO file is given
 if [ $iso -ne 1 ]; then
     echo "Usage: $0 iso=<path_to_live_iso>"
