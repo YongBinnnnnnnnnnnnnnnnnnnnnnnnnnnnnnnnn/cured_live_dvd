@@ -94,7 +94,7 @@ sed -e "s|findiso=.*|nodhcp efi=noruntime module_blacklist=i2c_piix4,i2c_smbios,
 #verify-checksums 
 
 mkdir -p new_iso/live/
-sudo mksquashfs new_root new_iso/live/filesystem.squashfs -comp zstd -b 512K -Xcompression-level 22
+sudo mksquashfs new_root new_iso/live/filesystem.squashfs $squashfs_compression
 
 cat iso_mount/md5sum.txt | grep -v -e " ./install" -e " ./pool" -e " ./dists" > md5sum.txt
 cat iso_mount/sha256sum.txt | grep -v -e " ./install" -e " ./pool" -e " ./dists" > sha256sum.txt
