@@ -15,7 +15,7 @@ for arg in "$@"; do
   esac
 done
 
-if [ $test_boot -eq 0 ]; then
+if [ $test_boot -eq 1 ]; then
   squashfs_compression="-comp gzip -Xcompression-level 1"
 fi
 
