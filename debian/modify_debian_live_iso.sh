@@ -82,9 +82,10 @@ if [ $skip_fs -eq 0 ]; then
   sudo cp $CURSED/hood/scripts/sysctl.conf new_root/etc/
   sudo mkdir -p new_root/etc/pki/
   sudo cp -r $CURSED/hood/scripts/nssdb new_root/etc/pki/
-  sudo chroot new_root gsettings set org.gnome.desktop.thumbnailers disable-all true
-
-
+  sudo chroot new_root dconf write /org/gnome/nautilus/preferences/show-image-thumbnails "'never'"
+  sudo chroot new_root dconf write /org/gnome/desktop/thumbnailers/disable-all true
+  sudo chroot new_root dconf write /org/gnome/desktop/interface/gtk-im-module "'ibus'"
+  
   #sudo chmod -x new_root/usr/sbin/dhclient
 
   sudo rm new_root/usr/share/desktop-base/*/*/contents/images/*.svg
