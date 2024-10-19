@@ -110,7 +110,7 @@ fi
 
 mkdir -p new_iso/boot/grub/
 sed -e "s|800x600|1920x1080|g" iso_mount/boot/grub/config.cfg > new_iso/boot/grub/config.cfg
-sed -e "s|findiso=.*|toram nodhcp efi=noruntime pnpbios=off pnpacpi=off module_blacklist=i2c_piix4,sp5100_tco,i2c_smbios,msr,parport,qrtr,intel_rapl_common,serio_raw,mei initcall_blacklist=serial8250_init|g" iso_mount/boot/grub/grub.cfg > new_iso/boot/grub/grub.cfg
+sed -e "s|findiso=.*|toram nodhcp efi=noruntime pnpbios=off pnpacpi=off module_blacklist=i2c_piix4,sp5100_tco,i2c_smbios,msr,parport,qrtr,intel_rapl_common,joydev,serio_raw,mei initcall_blacklist=serial8250_init acpiphp.disable=Y ccp.dmaengine=0 ccp.psp_init_on_probe=N |g" iso_mount/boot/grub/grub.cfg > new_iso/boot/grub/grub.cfg
 #useless: ,serial_base_port_init
 #verify-checksums 
 
