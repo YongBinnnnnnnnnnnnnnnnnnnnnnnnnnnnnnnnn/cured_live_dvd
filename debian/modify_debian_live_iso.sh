@@ -98,7 +98,7 @@ fi
 
 mkdir -p new_iso/boot/grub/
 sed -e "s|800x600|1920x1080|g" iso_mount/boot/grub/config.cfg > new_iso/boot/grub/config.cfg
-sed -e "s|findiso=.*|toram=filesystem.squashfs nodhcp efi=noruntime module_blacklist=i2c_piix4,sp5100_tco,i2c_smbios,msr,parport,qrtr,intel_rapl_common,serio_raw initcall_blacklist=serial_base_port_init|g" iso_mount/boot/grub/grub.cfg > new_iso/boot/grub/grub.cfg
+sed -e "s|findiso=.*|toram=filesystem.squashfs nodhcp efi=noruntime module_blacklist=i2c_piix4,sp5100_tco,i2c_smbios,msr,parport,qrtr,intel_rapl_common,serio_raw,ccp,mei initcall_blacklist=serial_base_port_init|g" iso_mount/boot/grub/grub.cfg > new_iso/boot/grub/grub.cfg
 #verify-checksums 
 
 cat iso_mount/md5sum.txt | grep -v -e " ./install" -e " ./pool" -e " ./dists" > md5sum.txt
