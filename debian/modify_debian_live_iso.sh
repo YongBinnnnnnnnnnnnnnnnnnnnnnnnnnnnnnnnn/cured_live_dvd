@@ -27,8 +27,13 @@ if [ $fast_comp -eq 1 ]; then
 fi
 
 # Check if an ISO file is given
-if [ $iso -ne 1 ]; then
+if !test $iso; then
     echo "Usage: $0 iso=<path_to_live_iso>"
+    exit 1
+fi
+
+if !test $CURSED/hood; then
+    echo "Could not find hood. Forgot init submodule or using the script out of project"
     exit 1
 fi
 
@@ -41,7 +46,7 @@ sudo umount new_root/var/cache/apt
 sudo umount new_root
 sudo umount root_mount
 sudo umount iso_mount
-sudo umount *
+sudo umount * 2>/dev/null
 sudo rm -r *
 
 mkdir iso_mount root_mount root_overlay_upper root_overlay_work new_root new_iso
@@ -116,6 +121,13 @@ find new_iso/ -type f -exec bash -c "iso_path=\$(echo {}|sed -e 's|new_iso|\\.|'
 find new_iso/ -type f -exec bash -c "iso_path=\$(echo {}|sed -e 's|new_iso|\\.|');hash=\$(sha256sum {}|cut -d ' ' -f 1);sed -i sha256sum.txt -e 's|.* '\$iso_path'|'\$hash'  '\$iso_path'|';echo \$hash \$iso_path" \;
 mv md5sum.txt new_iso/
 mv sha256sum.txt new_iso/
+
+sudo umount new_root/dev
+sudo umount new_root/var/cache/apt
+sudo umount new_root
+sudo umount root_mount
+sudo umount iso_mount
+sudo umount * 2>/dev/null
 
 xorriso -boot_image any keep -indev "$ISO_FILE" -outdev cursed.iso  -map new_iso / -rm_r /install -rm_r /pool -rm_r /dists -rm_r /pool-udeb 
 #-rm_r /boot/grub/x86_64-efi
