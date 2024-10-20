@@ -1,7 +1,7 @@
 #!/bin/bash
 # Bin Yong all rights reserved.
 
-if realpath /proc/$PPID/exe | /usr/sbin/NetworkManager; then
+if realpath /proc/$PPID/exe | grep /usr/sbin/NetworkManager; then
   sleep 60
   exit 0
 fi
