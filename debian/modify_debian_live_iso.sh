@@ -75,7 +75,7 @@ if [ $skip_fs -ne 1 ]; then
 
   sudo chroot new_root systemctl mask avahi-daemon fwupd cups-browsed 
   sudo sed -i new_root/var/lib/dpkg/info/bluez.prerm -e "s|invoke-rc.d|echo invoke-rc.d|"
-  sudo chroot new_root apt autoremove --purge -y bluez bluez-firmware bluez-obexd cups-browsed debian-reference-common exim4-base fcitx* fonts-thai-tlwg fortunes-debian-hints gnome-games gnome-online-accounts gnome-initial-setup gnome-music gnome-software gnome-sushi gnome-themes-extra mlterm mlterm-tiny pinentry-gnome3 shotwell totem vlc-l10n wnorwegian wpolish xiterm+thai yelp
+  sudo chroot new_root apt autoremove --purge -y bluez bluez-firmware bluez-obexd cups-browsed debian-reference-common exim4-base fcitx* fonts-thai-tlwg fortunes-debian-hints gnome-games gnome-online-accounts gnome-initial-setup gnome-music gnome-software gnome-sushi gnome-themes-extra mlterm mlterm-tiny mlterm-tools pinentry-gnome3 shotwell totem vlc-l10n wnorwegian wpolish xiterm+thai yelp
   sudo chroot new_root bash -c 'apt list --installed|cut -d / -f 1|grep -e "l10n-[a-z]"|xargs apt autoremove --purge -y '
   sudo chroot new_root bash -c 'apt list --installed|cut -d / -f 1|grep -e "spell-[a-z]"|grep -v -e -en|xargs apt autoremove --purge -y '
   sudo chroot new_root bash -c 'apt list --installed|cut -d / -f 1|grep manpages-| xargs apt autoremove --purge -y'
@@ -101,7 +101,8 @@ if [ $skip_fs -ne 1 ]; then
   sudo cp $CURSED/linux/sbin/dhclient.sh new_root/usr/sbin/dhclient
 
   sudo chroot new_root rm /usr/share/desktop-base/*/*/contents/images/*.svg
-  sudo rm -r new_root/usr/share/sounds/*
+  #sudo rm -r new_root/usr/share/sounds/*
+  sudo rm -r new_root/usr/share/backgrounds/*
 
   sudo umount new_root/dev
   sudo umount new_root/var/cache/apt
@@ -131,7 +132,7 @@ sudo umount root_mount
 sudo umount iso_mount
 sudo umount * 2>/dev/null
 
-xorriso -boot_image any keep -indev "$ISO_FILE" -outdev cursed.iso  -map new_iso / -rm_r /install -rm_r /pool -rm_r /dists -rm_r /pool-udeb 
+xorriso -boot_image any keep -indev "$ISO_FILE" -outdev cursed.iso  -map new_iso / -rm_r /install /dists /pool /firmware /pool-udeb /tools  
 #-rm_r /boot/grub/x86_64-efi
 
 cd -
