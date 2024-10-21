@@ -117,8 +117,8 @@ sed -e "s|findiso=.*|toram nodhcp efi=noruntime pnpbios=off pnpacpi=off module_b
 #useless: ,serial_base_port_init
 #verify-checksums 
 
-cat iso_mount/md5sum.txt | grep -v -e " ./install" -e " ./pool" -e " ./dists" > md5sum.txt
-cat iso_mount/sha256sum.txt | grep -v -e " ./install" -e " ./pool" -e " ./dists" > sha256sum.txt
+cat iso_mount/md5sum.txt | grep -v -e " ./install" -e " ./pool" -e " ./dists -e ./tools" > md5sum.txt
+cat iso_mount/sha256sum.txt | grep -v -e " ./install" -e " ./pool" -e " ./dists -e ./tools" > sha256sum.txt
 #new hashes
 find new_iso/ -type f -exec bash -c "iso_path=\$(echo {}|sed -e 's|new_iso|\\.|');hash=\$(md5sum {}|cut -d ' ' -f 1);sed -i md5sum.txt -e 's|.* '\$iso_path'|'\$hash'  '\$iso_path'|';echo \$hash \$iso_path" \;
 find new_iso/ -type f -exec bash -c "iso_path=\$(echo {}|sed -e 's|new_iso|\\.|');hash=\$(sha256sum {}|cut -d ' ' -f 1);sed -i sha256sum.txt -e 's|.* '\$iso_path'|'\$hash'  '\$iso_path'|';echo \$hash \$iso_path" \;
