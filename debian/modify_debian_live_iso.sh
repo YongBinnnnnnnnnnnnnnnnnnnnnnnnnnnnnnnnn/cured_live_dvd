@@ -95,6 +95,7 @@ if [ $skip_fs -ne 1 ]; then
   sudo chroot new_root dconf write /org/gnome/nautilus/preferences/show-image-thumbnails "'never'"
   sudo chroot new_root dconf write /org/gnome/desktop/thumbnailers/disable-all true
   sudo chroot new_root dconf write /org/gnome/desktop/interface/gtk-im-module "'ibus'"
+  sudo sed -i new_root/usr/bin/chromium -e 's|CHROMIUM_FLAGS=""|CHROMIUM_FLAGS=" --disable-features=MediaRouter"|'
 
   sudo mkdir -p new_root/lib/cursed/sbin
   sudo mv new_root/usr/sbin/dhclient new_root/lib/cursed/sbin/
