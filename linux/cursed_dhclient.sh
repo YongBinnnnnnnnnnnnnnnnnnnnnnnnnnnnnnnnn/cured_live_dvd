@@ -6,4 +6,7 @@ if realpath /proc/$PPID/exe | grep /usr/sbin/NetworkManager; then
   exit 0
 fi
 
-/lib/cursed/sbin/dhclient "$@"
+if /lib/cursed/sbin/dhclient "$@"; then
+  sudo killall dhclient 
+  echo "dhclient killed."
+fi
