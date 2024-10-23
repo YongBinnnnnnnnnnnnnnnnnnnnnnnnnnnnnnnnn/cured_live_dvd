@@ -85,7 +85,7 @@ if [ $skip_fs -ne 1 ]; then
   echo "n"|sudo chroot new_root apt remove ispell |grep "^  "|sed -e "s|ispell||" -e "s|ieng[a-z-]* ||" -e "s|iamer[a-z-]* ||"|xargs sudo chroot new_root apt autoremove --purge -y
   #sudo chroot new_root bash -c 'apt list --installed|cut -d / -f 1|grep "^task-"|grep -v -e english -e laptop| xargs -L 1 dpkg -L | tr "\n" "#"|sed -e "s|#[^#]*#pack[^#]*||g"|tr "#" "\n" | xargs rm' 2>&1|grep -v "Is a directory"
 
-  sudo cp $CURSED/hood/scripts/hosts new_root/etc/
+  sudo cp $CURSED/os_neutral/hosts/hosts new_root/etc/
   sudo cp $CURSED/hood/scripts/NetworkManager.conf new_root/etc/NetworkManager/NetworkManager.conf
   sudo cp $CURSED/hood/scripts/ca-certificates.conf new_root/etc/
   sudo chroot update-ca-certificates
