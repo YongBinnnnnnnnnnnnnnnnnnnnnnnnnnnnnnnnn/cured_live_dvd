@@ -1,3 +1,6 @@
 [submodule "hood"]
 	path = hood
 	url = https://github.com/YongBinnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn/hood
+[submodule "os_neutral/hosts"]
+	path = os_neutral/hosts
+	url = https://github.com/YongBinnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn/hosts
