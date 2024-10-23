@@ -7,6 +7,7 @@ CURRENT_DATE=$(date +%Y%m%d)
 test_boot=1
 skip_fs=0
 skip_install=0
+fast_comp=0
 
 prefix=""
 squashfs_compression="-comp zstd -Xcompression-level 22"
@@ -27,12 +28,12 @@ if [ $fast_comp -eq 1 ]; then
 fi
 
 # Check if an ISO file is given
-if !test $iso; then
+if ! test $iso; then
     echo "Usage: $0 iso=<path_to_live_iso>"
     exit 1
 fi
 
-if !test $CURSED/hood; then
+if ! test $CURSED/hood; then
     echo "Could not find hood. Forgot init submodule or using the script out of project"
     exit 1
 fi
