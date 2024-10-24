@@ -93,9 +93,13 @@ if [ $skip_fs -ne 1 ]; then
   sudo cp $CURSED/hood/scripts/sysctl.conf new_root/etc/
   sudo mkdir -p new_root/etc/pki/
   sudo cp -r $CURSED/hood/scripts/nssdb new_root/etc/pki/
+  
   sudo chroot new_root dconf write /org/gnome/nautilus/preferences/show-image-thumbnails "'never'"
   sudo chroot new_root dconf write /org/gnome/desktop/thumbnailers/disable-all true
   sudo chroot new_root dconf write /org/gnome/desktop/interface/gtk-im-module "'ibus'"
+  sudo mkdir -p new_root/etc/skel/.config/dconf
+  sudo mv new_root/root/.cache/dconf/user new_root/etc/skel/.config/dconf/user
+  
   sudo sed -i new_root/usr/bin/chromium -e 's|CHROMIUM_FLAGS=""|CHROMIUM_FLAGS=" --disable-features=MediaRouter"|'
 
   sudo mkdir -p new_root/lib/cursed/sbin
