@@ -18,7 +18,7 @@ for arg in "$@"; do
     fast_comp=*) fast_comp=$(echo $arg|sed "s/[^=]*=//");;
     skip_fs=*) skip_fs=$(echo $arg|sed "s/[^=]*=//");;
     skip_install=*) skip_install=$(echo $arg|sed "s/[^=]*=//");;
-    skip_remove=*) skip_install=$(echo $arg|sed "s/[^=]*=//");;
+    skip_remove=*) skip_remove=$(echo $arg|sed "s/[^=]*=//");;
     test_boot=*) test_boot=$(echo $arg|sed "s/[^=]*=//");;
   esac
 done
