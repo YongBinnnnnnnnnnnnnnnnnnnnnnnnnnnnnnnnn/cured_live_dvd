@@ -7,6 +7,7 @@ CURRENT_DATE=$(date +%Y%m%d)
 test_boot=1
 skip_fs=0
 skip_install=0
+skip_remove=0
 fast_comp=0
 
 prefix=""
@@ -17,6 +18,7 @@ for arg in "$@"; do
     fast_comp=*) fast_comp=$(echo $arg|sed "s/[^=]*=//");;
     skip_fs=*) skip_fs=$(echo $arg|sed "s/[^=]*=//");;
     skip_install=*) skip_install=$(echo $arg|sed "s/[^=]*=//");;
+    skip_remove=*) skip_install=$(echo $arg|sed "s/[^=]*=//");;
     test_boot=*) test_boot=$(echo $arg|sed "s/[^=]*=//");;
   esac
 done
@@ -76,16 +78,19 @@ if [ $skip_fs -ne 1 ]; then
 
   sudo chroot new_root systemctl mask avahi-daemon fwupd cups-browsed 
   sudo sed -i new_root/var/lib/dpkg/info/bluez.prerm -e "s|invoke-rc.d|echo invoke-rc.d|"
-  sudo chroot new_root apt autoremove --purge -y bluez bluez-firmware bluez-obexd cups-browsed debian-reference-common exim4-base fcitx* fonts-thai-tlwg fortunes-debian-hints gnome-games gnome-online-accounts gnome-initial-setup gnome-music gnome-software gnome-sushi gnome-themes-extra mlterm mlterm-tiny mlterm-tools pinentry-gnome3 shotwell totem vlc-l10n wnorwegian wpolish xiterm+thai yelp
-  sudo chroot new_root bash -c 'apt list --installed|cut -d / -f 1|grep -e "l10n-[a-z]"|xargs apt autoremove --purge -y '
-  sudo chroot new_root bash -c 'apt list --installed|cut -d / -f 1|grep -e "spell-[a-z]"|grep -v -e -en|xargs apt autoremove --purge -y '
-  sudo chroot new_root bash -c 'apt list --installed|cut -d / -f 1|grep manpages-| xargs apt autoremove --purge -y'
-  sudo chroot new_root bash -c 'apt list --installed|cut -d / -f 1|grep -e fonts-lohit -e fonts-be -e fonts-t -e fonts-smc| xargs apt autoremove --purge -y'
-  sudo chroot new_root bash -c 'apt list --installed|cut -d / -f 1|grep -e "mythes-[a-df-z]"|xargs apt autoremove --purge -y'
-  sudo chroot new_root bash -c 'apt list --installed|cut -d / -f 1|grep "^task-"|grep -v -e english -e laptop| xargs apt autoremove --purge -y'
-  echo "n"|sudo chroot new_root apt remove ispell |grep "^  "|sed -e "s|ispell||" -e "s|ieng[a-z-]* ||" -e "s|iamer[a-z-]* ||"|xargs sudo chroot new_root apt autoremove --purge -y
-  #sudo chroot new_root bash -c 'apt list --installed|cut -d / -f 1|grep "^task-"|grep -v -e english -e laptop| xargs -L 1 dpkg -L | tr "\n" "#"|sed -e "s|#[^#]*#pack[^#]*||g"|tr "#" "\n" | xargs rm' 2>&1|grep -v "Is a directory"
-
+  
+  if [ $skip_remove -ne 1 ]; then
+    sudo chroot new_root apt autoremove --purge -y bluez bluez-firmware bluez-obexd cups-browsed debian-reference-common exim4-base fcitx* fonts-thai-tlwg fortunes-debian-hints gnome-games gnome-online-accounts gnome-initial-setup gnome-music gnome-software gnome-sushi gnome-themes-extra mlterm mlterm-tiny mlterm-tools pinentry-gnome3 shotwell totem vlc-l10n wnorwegian wpolish xiterm+thai yelp
+    sudo chroot new_root bash -c 'apt list --installed|cut -d / -f 1|grep -e "l10n-[a-z]"|xargs apt autoremove --purge -y '
+    sudo chroot new_root bash -c 'apt list --installed|cut -d / -f 1|grep -e "spell-[a-z]"|grep -v -e -en|xargs apt autoremove --purge -y '
+    sudo chroot new_root bash -c 'apt list --installed|cut -d / -f 1|grep manpages-| xargs apt autoremove --purge -y'
+    sudo chroot new_root bash -c 'apt list --installed|cut -d / -f 1|grep -e fonts-lohit -e fonts-be -e fonts-t -e fonts-smc| xargs apt autoremove --purge -y'
+    sudo chroot new_root bash -c 'apt list --installed|cut -d / -f 1|grep -e "mythes-[a-df-z]"|xargs apt autoremove --purge -y'
+    sudo chroot new_root bash -c 'apt list --installed|cut -d / -f 1|grep "^task-"|grep -v -e english -e laptop| xargs apt autoremove --purge -y'
+    echo "n"|sudo chroot new_root apt remove ispell |grep "^  "|sed -e "s|ispell||" -e "s|ieng[a-z-]* ||" -e "s|iamer[a-z-]* ||"|xargs sudo chroot new_root apt autoremove --purge -y
+    #sudo chroot new_root bash -c 'apt list --installed|cut -d / -f 1|grep "^task-"|grep -v -e english -e laptop| xargs -L 1 dpkg -L | tr "\n" "#"|sed -e "s|#[^#]*#pack[^#]*||g"|tr "#" "\n" | xargs rm' 2>&1|grep -v "Is a directory"
+  fi
+  
   sudo cp $CURSED/os_neutral/hosts/hosts new_root/etc/
   sudo cp $CURSED/hood/scripts/NetworkManager.conf new_root/etc/NetworkManager/NetworkManager.conf
   sudo cp $CURSED/hood/scripts/ca-certificates.conf new_root/etc/
