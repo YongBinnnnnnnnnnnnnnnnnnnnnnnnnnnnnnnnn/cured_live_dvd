@@ -98,10 +98,18 @@ if [ $skip_fs -ne 1 ]; then
   sudo cp $CURSED/hood/scripts/sysctl.conf new_root/etc/
   sudo mkdir -p new_root/etc/pki/
   sudo cp -r $CURSED/hood/scripts/nssdb new_root/etc/pki/
-  
-  sudo chroot new_root dconf write /org/gnome/nautilus/preferences/show-image-thumbnails "'never'"
-  sudo chroot new_root dconf write /org/gnome/desktop/thumbnailers/disable-all true
-  sudo chroot new_root dconf write /org/gnome/desktop/interface/gtk-im-module "'ibus'"
+
+  sudo tee new_root/etc/dconf/db/ibus.d/01-cursed.conf <<EOF
+[org/gnome/nautilus/preferences]
+show-image-thumbnails='never'
+
+[org/gnome/desktop/thumbnailers]
+disable-all=true
+
+[org/gnome/desktop/interface]
+gtk-im-module='ibus'
+
+EOF
   sudo mkdir -p new_root/etc/skel/.config/dconf
   sudo mv new_root/root/.cache/dconf/user new_root/etc/skel/.config/dconf/user
   
