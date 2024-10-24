@@ -99,7 +99,7 @@ if [ $skip_fs -ne 1 ]; then
   sudo mkdir -p new_root/etc/pki/
   sudo cp -r $CURSED/hood/scripts/nssdb new_root/etc/pki/
 
-  sudo tee new_root/etc/dconf/db/ibus.d/01-cursed.conf <<EOF
+  sudo tee new_root/etc/dconf/db/ibus.d/01-cursed <<EOF
 [org/gnome/nautilus/preferences]
 show-image-thumbnails='never'
 
