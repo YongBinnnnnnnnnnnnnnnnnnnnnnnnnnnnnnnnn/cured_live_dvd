@@ -109,6 +109,9 @@ disable-all=true
 [org/gnome/desktop/interface]
 gtk-im-module='ibus'
 
+[org/gnome/desktop/input-sources]
+sources=[('xkb', 'us'), ('ibus', 'pinyin')]
+
 EOF
   sudo mkdir -p new_root/etc/skel/.config/dconf
   sudo mv new_root/root/.cache/dconf/user new_root/etc/skel/.config/dconf/user
