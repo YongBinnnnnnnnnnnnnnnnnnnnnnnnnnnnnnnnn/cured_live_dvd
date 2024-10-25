@@ -89,7 +89,7 @@ if [ $skip_fs -ne 1 ]; then
   sudo sed -i new_root/var/lib/dpkg/info/bluez.prerm -e "s|invoke-rc.d|echo invoke-rc.d|"
   
   if [ $skip_remove -ne 1 ]; then
-    sudo chroot new_root apt autoremove --purge -y bluez bluez-firmware bluez-obexd calamares cups-browsed debian-reference-common exim4-base firmware-ivtv firmware-netronome fonts-thai-tlwg fonts-nanum fonts-noto-cjk-extra fonts-noto-extra fonts-noto-ui-extra fortunes-debian-hints gnome-games gnome-online-accounts gnome-initial-setup gnome-music gnome-software gnome-sushi gnome-themes-extra maint-guide-it mlterm mlterm-tiny mlterm-tools plymouth pinentry-gnome3 rhythmbox shotwell totem vlc-l10n wnorwegian wpolish wspanish xiterm+thai yelp
+    sudo chroot new_root apt autoremove --purge -y bluez bluez-firmware bluez-obexd calamares cups-browsed debian-reference-common exim4-base firmware-ivtv firmware-netronome fonts-thai-tlwg fonts-nanum fonts-noto-cjk-extra fonts-noto-extra fonts-noto-ui-extra fortunes-debian-hints gnome-games gnome-online-accounts gnome-initial-setup gnome-music gnome-software gnome-sushi gnome-themes-extra maint-guide-it mlterm mlterm-tiny mlterm-tools plymouth pinentry-gnome3 rhythmbox shotwell totem vlc-l10n wbulgraian wnorwegian wpolish wspanish xiterm+thai yelp
     sudo chroot new_root bash -c 'apt list --installed|cut -d / -f 1|grep -e "fcitx"|xargs apt autoremove --purge -y '
     sudo chroot new_root bash -c 'apt list --installed|cut -d / -f 1|grep -e "l10n-[a-z]"|xargs apt autoremove --purge -y '
     sudo chroot new_root bash -c 'apt list --installed|cut -d / -f 1|grep -e "spell-[a-z]"|grep -v -e -en|xargs apt autoremove --purge -y '
