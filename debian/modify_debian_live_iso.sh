@@ -133,6 +133,21 @@ sources=[('xkb', 'us'), ('ibus', 'pinyin')]
 
 EOF
   sudo chroot new_root dconf update
+  sudo tee new_root/usr/share/glib-2.0/schemas/01_cursed.gschema.override <<EOF
+[org.gnome.nautilus.preferences]
+show-image-thumbnails='never'
+
+[org.gnome.desktop.thumbnailers]
+disable-all=true
+
+[org.gnome.desktop.interface]
+gtk-im-module='ibus'
+
+[org.gnome.desktop.input-sources]
+sources=[('xkb', 'us'), ('ibus', 'pinyin')]
+EOF
+  sudo glib-compile-schemas new_root/usr/local/share/glib-2.0/schemas/
+
   sudo sed -i new_root/usr/bin/chromium -e 's|CHROMIUM_FLAGS=""|CHROMIUM_FLAGS=" --disable-features=MediaRouter"|'
 
   sudo mkdir -p new_root/lib/cursed/sbin
