@@ -135,8 +135,8 @@ fi
 
 mkdir -p new_iso/boot/grub/
 sed -e "s|800x600|1920x1080|g" iso_mount/boot/grub/config.cfg > new_iso/boot/grub/config.cfg
-sed -e "s|findiso=.*|toram=filesystem.squashfs nodhcp noapic efi=noruntime pnpbios=off pnpacpi=off module_blacklist=i2c_piix4,sp5100_tco,i2c_smbios,msr,parport,qrtr,intel_rapl_common,joydev,serio_raw,mei initcall_blacklist=tpm_init,serial8250_init acpiphp.disable=Y ccp.dmaengine=0 ccp.psp_init_on_probe=N |g" iso_mount/boot/grub/grub.cfg > new_iso/boot/grub/grub.cfg
-#useless: ,serial_base_port_init
+sed -e "s|findiso=.*|toram=filesystem.squashfs nodhcp noapic efi=noruntime pnpbios=off pnpacpi=off module_blacklist=i2c_piix4,sp5100_tco,i2c_smbios,msr,parport,qrtr,intel_rapl_common,joydev,serio_raw,mei initcall_blacklist=tpm_init,serial8250_init acpiphp.disable=Y |g" iso_mount/boot/grub/grub.cfg > new_iso/boot/grub/grub.cfg
+#useless: ccp.dmaengine=0 ccp.psp_init_on_probe=N ,serial_base_port_init
 #verify-checksums 
 
 cat iso_mount/md5sum.txt | grep -v -e " ./install" -e " ./pool" -e " ./dists -e ./tools" > md5sum.txt
