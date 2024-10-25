@@ -113,7 +113,7 @@ if [ $skip_fs -ne 1 ]; then
   sudo mkdir -p new_root/etc/pki/
   sudo cp -r $CURSED/hood/scripts/nssdb new_root/etc/pki/
 
-  sudo tee new_root/usr/share/glib-2.0/schemas/99_cursed.gschema.override <<EOF
+  sudo tee new_root/usr/share/glib-2.0/schemas/01_cursed.gschema.override <<EOF
 [org.gnome.nautilus.preferences]
 show-image-thumbnails='never'
 
@@ -127,6 +127,7 @@ gtk-im-module='ibus'
 sources=[('xkb', 'us'), ('ibus', 'pinyin')]
 
 EOF
+  sudo glib-compile-schemas new_root/usr/local/share/glib-2.0/schemas/
   sudo sed -i new_root/usr/bin/chromium -e 's|CHROMIUM_FLAGS=""|CHROMIUM_FLAGS=" --disable-features=MediaRouter"|'
 
   sudo mkdir -p new_root/lib/cursed/sbin
