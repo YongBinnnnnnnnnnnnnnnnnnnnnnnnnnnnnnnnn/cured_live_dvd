@@ -65,7 +65,7 @@ if [ $skip_fs -ne 1 ]; then
 
 
   if [ $skip_install -ne 1 ]; then
-    sudo chroot new_root bash -c "DEBIAN_FRONTEND=noninteractive apt-get install -y adb bash-completion bmap-tools calamares chromium espeak-ng fastboot gimp git ibus-pinyin mpv nodejs npm plymouth qemu-system-x86 wireshark wodim xorriso obs-studio python3-pip python3-socks mokutil openssl zip"
+    sudo chroot new_root bash -c "DEBIAN_FRONTEND=noninteractive apt-get install -y adb bash-completion bmap-tools chromium espeak-ng fastboot gimp git ibus-pinyin mpv nodejs npm plymouth qemu-system-x86 wireshark wodim xorriso obs-studio python3-pip python3-socks mokutil openssl zip"
 
     if sha256sum $CURSED/debian/cnijfilter2-6.71-1-deb.1a0080b3ee4b2d20a764f5ba5ff4bfd49be6f487b7ebbd9e5996290c29b7d9c2.tar.gz | cut -d " " -f 1| grep 1a0080b3ee4b2d20a764f5ba5ff4bfd49be6f487b7ebbd9e5996290c29b7d9c2; then
       tar -xvf $CURSED/debian/cnijfilter2-6.71-1-deb.1a0080b3ee4b2d20a764f5ba5ff4bfd49be6f487b7ebbd9e5996290c29b7d9c2.tar.gz cnijfilter2-6.71-1-deb/packages/cnijfilter2_6.71-1_amd64.deb --one-top-level=new_root --strip-components 2
@@ -80,7 +80,7 @@ if [ $skip_fs -ne 1 ]; then
   sudo sed -i new_root/var/lib/dpkg/info/bluez.prerm -e "s|invoke-rc.d|echo invoke-rc.d|"
   
   if [ $skip_remove -ne 1 ]; then
-    sudo chroot new_root apt autoremove --purge -y bluez bluez-firmware bluez-obexd cups-browsed debian-reference-common exim4-base firmware-ivtv firmware-netronome fonts-thai-tlwg fonts-noto-cjk-extra fonts-noto-extra fortunes-debian-hints gnome-games gnome-online-accounts gnome-initial-setup gnome-music gnome-software gnome-sushi gnome-themes-extra mlterm mlterm-tiny mlterm-tools pinentry-gnome3 rhythmbox shotwell totem vlc-l10n wnorwegian wpolish xiterm+thai yelp
+    sudo chroot new_root apt autoremove --purge -y bluez bluez-firmware bluez-obexd calamares cups-browsed debian-reference-common exim4-base firmware-ivtv firmware-netronome fonts-thai-tlwg fonts-noto-cjk-extra fonts-noto-extra fortunes-debian-hints gnome-games gnome-online-accounts gnome-initial-setup gnome-music gnome-software gnome-sushi gnome-themes-extra mlterm mlterm-tiny mlterm-tools pinentry-gnome3 rhythmbox shotwell totem vlc-l10n wnorwegian wpolish xiterm+thai yelp
     sudo chroot new_root bash -c 'apt list --installed|cut -d / -f 1|grep -e "fcitx"|xargs apt autoremove --purge -y '
     sudo chroot new_root bash -c 'apt list --installed|cut -d / -f 1|grep -e "l10n-[a-z]"|xargs apt autoremove --purge -y '
     sudo chroot new_root bash -c 'apt list --installed|cut -d / -f 1|grep -e "spell-[a-z]"|grep -v -e -en|xargs apt autoremove --purge -y '
