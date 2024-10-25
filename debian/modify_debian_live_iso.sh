@@ -65,7 +65,7 @@ if [ $skip_fs -ne 1 ]; then
 
 
   if [ $skip_install -ne 1 ]; then
-    sudo chroot new_root bash -c "DEBIAN_FRONTEND=noninteractive apt-get install -y adb bash-completion bmap-tools chromium espeak-ng fastboot gimp git ibus-pinyin mpv nodejs npm plymouth qemu-system-x86 wireshark wodim xorriso obs-studio python3-pip python3-socks mokutil openssl zip"
+    sudo chroot new_root bash -c "DEBIAN_FRONTEND=noninteractive apt-get install -y adb bash-completion bmap-tools calamares chromium espeak-ng fastboot gimp git ibus-pinyin mpv nodejs npm plymouth qemu-system-x86 wireshark wodim xorriso obs-studio python3-pip python3-socks mokutil openssl zip"
 
     if sha256sum $CURSED/debian/cnijfilter2-6.71-1-deb.1a0080b3ee4b2d20a764f5ba5ff4bfd49be6f487b7ebbd9e5996290c29b7d9c2.tar.gz | cut -d " " -f 1| grep 1a0080b3ee4b2d20a764f5ba5ff4bfd49be6f487b7ebbd9e5996290c29b7d9c2; then
       tar -xvf $CURSED/debian/cnijfilter2-6.71-1-deb.1a0080b3ee4b2d20a764f5ba5ff4bfd49be6f487b7ebbd9e5996290c29b7d9c2.tar.gz cnijfilter2-6.71-1-deb/packages/cnijfilter2_6.71-1_amd64.deb --one-top-level=new_root --strip-components 2
@@ -100,23 +100,20 @@ if [ $skip_fs -ne 1 ]; then
   sudo mkdir -p new_root/etc/pki/
   sudo cp -r $CURSED/hood/scripts/nssdb new_root/etc/pki/
 
-  sudo tee new_root/etc/dconf/db/ibus.d/01-cursed <<EOF
-[org/gnome/nautilus/preferences]
+  sudo tee new_root/usr/share/glib-2.0/schemas/99_cursed.gschema.override <<EOF
+[org.gnome.nautilus.preferences]
 show-image-thumbnails='never'
 
-[org/gnome/desktop/thumbnailers]
+[org.gnome.desktop.thumbnailers]
 disable-all=true
 
-[org/gnome/desktop/interface]
+[org.gnome.desktop.interface]
 gtk-im-module='ibus'
 
-[org/gnome/desktop/input-sources]
+[org.gnome.desktop.input-sources]
 sources=[('xkb', 'us'), ('ibus', 'pinyin')]
 
 EOF
-  sudo mkdir -p new_root/etc/skel/.config/dconf
-  sudo mv new_root/root/.cache/dconf/user new_root/etc/skel/.config/dconf/user
-  
   sudo sed -i new_root/usr/bin/chromium -e 's|CHROMIUM_FLAGS=""|CHROMIUM_FLAGS=" --disable-features=MediaRouter"|'
 
   sudo mkdir -p new_root/lib/cursed/sbin
