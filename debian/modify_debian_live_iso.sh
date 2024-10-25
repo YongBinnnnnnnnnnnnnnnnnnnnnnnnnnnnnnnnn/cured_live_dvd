@@ -132,7 +132,7 @@ EOF
 
   sudo mkdir -p new_root/lib/cursed/sbin
   sudo mv new_root/usr/sbin/dhclient new_root/lib/cursed/sbin/
-  sudo cp $CURSED/linux/sbin/dhclient.sh new_root/usr/sbin/dhclient
+  sudo cp $CURSED/linux/cursed_dhclient.sh new_root/usr/sbin/dhclient
 
   sudo chroot new_root rm /usr/share/desktop-base/*/*/contents/images/*.svg
   #sudo rm -r new_root/usr/share/sounds/*
