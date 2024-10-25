@@ -9,12 +9,14 @@ skip_fs=0
 skip_install=0
 skip_remove=0
 fast_comp=0
+debug=0
 
 prefix=""
 squashfs_compression="-comp zstd -Xcompression-level 22"
 for arg in "$@"; do
   case $arg in 
     iso=*) iso=$(echo $arg|sed "s/[^=]*=//");;
+    debug=*) debug=$(echo $arg|sed "s/[^=]*=//");;
     fast_comp=*) fast_comp=$(echo $arg|sed "s/[^=]*=//");;
     skip_fs=*) skip_fs=$(echo $arg|sed "s/[^=]*=//");;
     skip_install=*) skip_install=$(echo $arg|sed "s/[^=]*=//");;
@@ -57,6 +59,9 @@ mkdir iso_mount root_mount root_overlay_upper root_overlay_work new_root new_iso
 sudo mount -o loop "$ISO_FILE" iso_mount
 
 if [ $skip_fs -ne 1 ]; then
+  if [ $debug -eq 1 ]; then
+    read -p "debug pause"
+  fi
   sudo mount iso_mount/live/filesystem.squashfs root_mount -t squashfs -o loop
   sudo mount -t overlay -o lowerdir=root_mount,upperdir=root_overlay_upper,workdir=root_overlay_work overlay new_root
 
@@ -76,6 +81,10 @@ if [ $skip_fs -ne 1 ]; then
   #TODO: find a way to do this without network
   #sudo chroot new_root npm i pagecage
 
+  if [ $debug -eq 1 ]; then
+    read -p "debug pause"
+  fi
+
   sudo chroot new_root systemctl mask suspend.target fwupd cups-browsed 
   sudo sed -i new_root/var/lib/dpkg/info/bluez.prerm -e "s|invoke-rc.d|echo invoke-rc.d|"
   
@@ -92,6 +101,10 @@ if [ $skip_fs -ne 1 ]; then
     #sudo chroot new_root bash -c 'apt list --installed|cut -d / -f 1|grep "^task-"|grep -v -e english -e laptop| xargs -L 1 dpkg -L | tr "\n" "#"|sed -e "s|#[^#]*#pack[^#]*||g"|tr "#" "\n" | xargs rm' 2>&1|grep -v "Is a directory"
   fi
   
+  if [ $debug -eq 1 ]; then
+    read -p "debug pause"
+  fi
+
   sudo cp $CURSED/os_neutral/hosts/hosts new_root/etc/
   sudo cp $CURSED/hood/scripts/NetworkManager.conf new_root/etc/NetworkManager/NetworkManager.conf
   sudo cp $CURSED/hood/scripts/ca-certificates.conf new_root/etc/
@@ -128,7 +141,16 @@ EOF
   sudo umount new_root/var/cache/apt
   
   mkdir -p new_iso/live/
+  
+  if [ $debug -eq 1 ]; then
+    read -p "debug pause"
+  fi
+
   sudo mksquashfs new_root new_iso/live/filesystem.squashfs $squashfs_compression
+fi
+
+if [ $debug -eq 1 ]; then
+  read -p "debug pause"
 fi
 
 mkdir -p new_iso/boot/grub/
@@ -145,6 +167,10 @@ find new_iso/ -type f -exec bash -c "iso_path=\$(echo {}|sed -e 's|new_iso|\\.|'
 mv md5sum.txt new_iso/
 mv sha256sum.txt new_iso/
 
+if [ $debug -eq 1 ]; then
+  read -p "debug pause"
+fi
+
 sudo umount new_root/dev
 sudo umount new_root/var/cache/apt
 sudo umount new_root
@@ -152,8 +178,16 @@ sudo umount root_mount
 sudo umount iso_mount
 sudo umount * 2>/dev/null
 
+if [ $debug -eq 1 ]; then
+  read -p "debug pause"
+fi
+
 xorriso -boot_image any keep -indev "$ISO_FILE" -outdev cursed.iso  -map new_iso / -rm_r /install /dists /pool /firmware /pool-udeb /tools  
 #-rm_r /boot/grub/x86_64-efi
+
+if [ $debug -eq 1 ]; then
+  read -p "debug pause"
+fi
 
 cd -
 new_iso_name=cursed-$(date "+%Y%m%d%H%M%S")-`sha256sum /tmp/cursed_dvd/cursed.iso | cut -d " " -f 1`.iso
