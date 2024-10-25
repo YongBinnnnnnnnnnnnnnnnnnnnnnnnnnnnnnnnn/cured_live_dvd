@@ -76,7 +76,7 @@ if [ $skip_fs -ne 1 ]; then
   #TODO: find a way to do this without network
   #sudo chroot new_root npm i pagecage
 
-  sudo chroot new_root systemctl mask avahi-daemon fwupd cups-browsed 
+  sudo chroot new_root systemctl mask suspend.target fwupd cups-browsed 
   sudo sed -i new_root/var/lib/dpkg/info/bluez.prerm -e "s|invoke-rc.d|echo invoke-rc.d|"
   
   if [ $skip_remove -ne 1 ]; then
