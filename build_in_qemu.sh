@@ -1,0 +1,1 @@
+qemu-system-x86_64 -m 12000 -smp 16 --enable-kvm -virtfs local,path=.,mount_tag=cured,security_model=passthrough,id=cured -virtfs local,path=/var/cache/apt/archives,mount_tag=archives,security_model=passthrough,id=archives -cdrom $1 
