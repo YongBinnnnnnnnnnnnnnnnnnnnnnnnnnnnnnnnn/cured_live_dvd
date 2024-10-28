@@ -114,6 +114,7 @@ if [ $skip_fs -ne 1 ]; then
   sudo cp $CURED/hood/scripts/sysctl.conf new_root/etc/
   sudo mkdir -p new_root/etc/pki/
   sudo cp -r $CURED/hood/scripts/nssdb new_root/etc/pki/
+  sudo cp $CURED/linux/rc.local new_root/etc/
   
   sudo mkdir -p new_root/etc/dconf/db/live.d/
   sudo tee new_root/etc/dconf/profile/user <<EOF
