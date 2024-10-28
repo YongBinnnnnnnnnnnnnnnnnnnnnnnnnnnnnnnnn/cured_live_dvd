@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if echo "b032ba4cc3803cb83af3dafb904d74c5e39aba4cc9696a2c89a0b95797902c59 /sys/devices/virtual/dmi/id/product_serial"|sha256sum -c ; then
+if echo "b032ba4cc3803cb83af3dafb904d74c5e39aba4cc9696a2c89a0b95797902c59 /sys/devices/virtual/dmi/id/product_serial"|sha256sum -c >/dev/null 2>&1; then
   # not needed to most person.
   echo "0.0.0.0 news.163.com" >> /etc/hosts
   echo "0000:03:00.2"> /sys/bus/pci/drivers/xhci_hcd/unbind
