@@ -5,4 +5,5 @@ if sha256sum /sys/devices/virtual/dmi/id/product_serial | cut -d " " -f 1 | grep
   echo "0.0.0.0 news.163.com" >> /etc/hosts
   echo "0000:03:00.2"> /sys/bus/pci/drivers/xhci_hcd/unbind
   echo "0000:03:00.4"> /sys/bus/pci/drivers/xhci_hcd/unbind
+  #TODO: when fixed suspend problem, should also add pm script, see https://superuser.com/questions/541854/disable-specific-pci-device-at-boot/556422#556422
 fi
