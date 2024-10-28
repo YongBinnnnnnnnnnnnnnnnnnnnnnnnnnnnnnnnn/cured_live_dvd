@@ -2,7 +2,7 @@
 
 sudo apt-get install xorriso
 
-CURSED=$(realpath -s ..)
+CURED=$(realpath -s ..)
 CURRENT_DATE=$(date +%Y%m%d)
 test_boot=1
 skip_fs=0
@@ -37,15 +37,15 @@ if ! test $iso; then
     exit 1
 fi
 
-if ! test $CURSED/hood; then
+if ! test $CURED/hood; then
     echo "Could not find hood. Forgot init submodule or using the script out of project"
     exit 1
 fi
 
 ISO_FILE=$(realpath -s $iso)
 
-mkdir /tmp/cursed_dvd
-cd /tmp/cursed_dvd
+mkdir /tmp/cured_dvd
+cd /tmp/cured_dvd
 sudo umount new_root/dev
 sudo umount new_root/var/cache/apt
 sudo umount new_root
@@ -72,8 +72,8 @@ if [ $skip_fs -ne 1 ]; then
   if [ $skip_install -ne 1 ]; then
     sudo chroot new_root bash -c "DEBIAN_FRONTEND=noninteractive apt-get install -y adb bash-completion bmap-tools chromium espeak-ng fastboot gimp git ibus-pinyin mpv nodejs npm plymouth qemu-system-x86 wireshark wodim xorriso obs-studio python3-pip python3-socks mokutil openssl zip"
 
-    if sha256sum $CURSED/debian/cnijfilter2-6.71-1-deb.1a0080b3ee4b2d20a764f5ba5ff4bfd49be6f487b7ebbd9e5996290c29b7d9c2.tar.gz | cut -d " " -f 1| grep 1a0080b3ee4b2d20a764f5ba5ff4bfd49be6f487b7ebbd9e5996290c29b7d9c2; then
-      tar -xvf $CURSED/debian/cnijfilter2-6.71-1-deb.1a0080b3ee4b2d20a764f5ba5ff4bfd49be6f487b7ebbd9e5996290c29b7d9c2.tar.gz cnijfilter2-6.71-1-deb/packages/cnijfilter2_6.71-1_amd64.deb --one-top-level=new_root --strip-components 2
+    if sha256sum $CURED/debian/cnijfilter2-6.71-1-deb.1a0080b3ee4b2d20a764f5ba5ff4bfd49be6f487b7ebbd9e5996290c29b7d9c2.tar.gz | cut -d " " -f 1| grep 1a0080b3ee4b2d20a764f5ba5ff4bfd49be6f487b7ebbd9e5996290c29b7d9c2; then
+      tar -xvf $CURED/debian/cnijfilter2-6.71-1-deb.1a0080b3ee4b2d20a764f5ba5ff4bfd49be6f487b7ebbd9e5996290c29b7d9c2.tar.gz cnijfilter2-6.71-1-deb/packages/cnijfilter2_6.71-1_amd64.deb --one-top-level=new_root --strip-components 2
       sudo chroot new_root apt install -y /cnijfilter2_6.71-1_amd64.deb
       rm new_root/cnijfilter2_6.71-1_amd64.deb
     fi
@@ -107,20 +107,20 @@ if [ $skip_fs -ne 1 ]; then
     read -p "debug pause"
   fi
 
-  sudo cp $CURSED/os_neutral/hosts/hosts new_root/etc/
-  sudo cp $CURSED/hood/scripts/NetworkManager.conf new_root/etc/NetworkManager/NetworkManager.conf
-  sudo cp $CURSED/hood/scripts/ca-certificates.conf new_root/etc/
+  sudo cp $CURED/os_neutral/hosts/hosts new_root/etc/
+  sudo cp $CURED/hood/scripts/NetworkManager.conf new_root/etc/NetworkManager/NetworkManager.conf
+  sudo cp $CURED/hood/scripts/ca-certificates.conf new_root/etc/
   sudo chroot new_root update-ca-certificates
-  sudo cp $CURSED/hood/scripts/sysctl.conf new_root/etc/
+  sudo cp $CURED/hood/scripts/sysctl.conf new_root/etc/
   sudo mkdir -p new_root/etc/pki/
-  sudo cp -r $CURSED/hood/scripts/nssdb new_root/etc/pki/
+  sudo cp -r $CURED/hood/scripts/nssdb new_root/etc/pki/
   
   sudo mkdir -p new_root/etc/dconf/db/live.d/
   sudo tee new_root/etc/dconf/profile/user <<EOF
 user-db:user
 system-db:live
 EOF
-  sudo tee new_root/etc/dconf/db/live.d/01-cursed <<EOF
+  sudo tee new_root/etc/dconf/db/live.d/01-cured <<EOF
 [org/gnome/nautilus/preferences]
 show-image-thumbnails='never'
 
@@ -135,7 +135,7 @@ sources=[('xkb', 'us'), ('ibus', 'pinyin')]
 
 EOF
   sudo chroot new_root dconf update
-  sudo tee new_root/usr/share/glib-2.0/schemas/01_cursed.gschema.override <<EOF
+  sudo tee new_root/usr/share/glib-2.0/schemas/01_cured.gschema.override <<EOF
 [org.gnome.nautilus.preferences]
 show-image-thumbnails='never'
 
@@ -152,9 +152,9 @@ EOF
 
   sudo sed -i new_root/usr/bin/chromium -e 's|CHROMIUM_FLAGS=""|CHROMIUM_FLAGS=" --disable-features=MediaRouter"|'
 
-  sudo mkdir -p new_root/lib/cursed/sbin
-  sudo mv new_root/usr/sbin/dhclient new_root/lib/cursed/sbin/
-  sudo cp $CURSED/linux/cursed_dhclient.sh new_root/usr/sbin/dhclient
+  sudo mkdir -p new_root/lib/cured/sbin
+  sudo mv new_root/usr/sbin/dhclient new_root/lib/cured/sbin/
+  sudo cp $CURED/linux/cured_dhclient.sh new_root/usr/sbin/dhclient
 
   sudo chroot new_root rm /usr/share/desktop-base/*/*/contents/images/*.svg
   #sudo rm -r new_root/usr/share/sounds/*
@@ -205,7 +205,7 @@ if [ $debug -eq 1 ]; then
   read -p "debug pause"
 fi
 
-xorriso -boot_image any keep -indev "$ISO_FILE" -outdev cursed.iso  -map new_iso / -rm_r /install /dists /pool /firmware /pool-udeb /tools  
+xorriso -boot_image any keep -indev "$ISO_FILE" -outdev cured.iso  -map new_iso / -rm_r /install /dists /pool /firmware /pool-udeb /tools  
 #-rm_r /boot/grub/x86_64-efi
 
 if [ $debug -eq 1 ]; then
@@ -213,8 +213,8 @@ if [ $debug -eq 1 ]; then
 fi
 
 cd -
-new_iso_name=cursed-$(date "+%Y%m%d%H%M%S")-`sha256sum /tmp/cursed_dvd/cursed.iso | cut -d " " -f 1`.iso
-mv /tmp/cursed_dvd/cursed.iso $new_iso_name
+new_iso_name=cured-$(date "+%Y%m%d%H%M%S")-`sha256sum /tmp/cured_dvd/cured.iso | cut -d " " -f 1`.iso
+mv /tmp/cured_dvd/cured.iso $new_iso_name
 
 if [ $test_boot -ne 0 ]; then
   qemu-system-x86_64 -cdrom $new_iso_name -bios /usr/share/qemu/OVMF.fd -m 8192 -smp 8 --enable-kvm
