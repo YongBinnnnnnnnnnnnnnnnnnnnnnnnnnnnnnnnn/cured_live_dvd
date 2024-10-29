@@ -181,7 +181,7 @@ fi
 
 mkdir -p new_iso/boot/grub/
 sed -e "s|800x600|1920x1080|g" iso_mount/boot/grub/config.cfg > new_iso/boot/grub/config.cfg
-sed -e "s|findiso=.*|toram=filesystem.squashfs nodhcp noapic efi=noruntime pnpbios=off pnpacpi=off module_blacklist=amd_pmc,edac_mce_amd,efi_pstore,k10temp,i2c_piix4,sp5100_tco,i2c_smbios,msr,parport,qrtr,intel_rapl_common,joydev,pcspkr,serio_raw,mei initcall_blacklist=tpm_init,serial8250_init acpiphp.disable=Y |g" iso_mount/boot/grub/grub.cfg > new_iso/boot/grub/grub.cfg
+sed -e "s|findiso=.*|toram=filesystem.squashfs nodhcp noapic efi=noruntime pnpbios=off pnpacpi=off module_blacklist=amd_pmc,edac_mce_amd,efi_pstore,k10temp,i2c_piix4,sp5100_tco,i2c_smbios,msr,parport,qrtr,intel_rapl_common,joydev,pcspkr,serio_raw,snd_pci_acp3x,snd_rn_pci_acp3x,snd_pci_acp5x,snd_pci_acp6x,mei initcall_blacklist=tpm_init,serial8250_init acpiphp.disable=Y |g" iso_mount/boot/grub/grub.cfg > new_iso/boot/grub/grub.cfg
 #useless: ccp.dmaengine=0 ccp.psp_init_on_probe=N ,serial_base_port_init
 #verify-checksums 
 
