@@ -9,5 +9,6 @@ echo $lspci_n |grep 1022:15c1|cut -d " " -f 1 > /sys/bus/pci/drivers/xhci_hcd/un
 if echo "b032ba4cc3803cb83af3dafb904d74c5e39aba4cc9696a2c89a0b95797902c59 /sys/devices/virtual/dmi/id/product_serial"|sha256sum -c >/dev/null 2>&1; then
   # not needed to most person.
   echo "0.0.0.0 news.163.com" >> /etc/hosts
+  echo "0.0.0.0 assets.msn.cn" >> /etc/hosts
   #TODO: when fixed suspend problem, should also add pm script, see https://superuser.com/questions/541854/disable-specific-pci-device-at-boot/556422#556422
 fi
