@@ -109,7 +109,7 @@ if [ $skip_fs -ne 1 ]; then
     read -p "debug pause"
   fi
 
-  sudo cp $CURED/os_neutral/hosts/hosts new_root/etc/
+  sed -e "s|\r||g" $CURED/os_neutral/hosts/hosts |sudo tee new_root/etc/hosts > /dev/null
   sudo cp $CURED/hood/scripts/NetworkManager.conf new_root/etc/NetworkManager/NetworkManager.conf
   sudo cp $CURED/hood/scripts/ca-certificates.conf new_root/etc/
   sudo chroot new_root update-ca-certificates
